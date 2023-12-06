@@ -32,7 +32,7 @@ const RecoaSquare = () => {
   return (
     <div>
         
-        <p className='text-4xl font-medium mt-8 text-center text-green-700'>Welcome to {estate.name} - Eko Atlantic City</p>
+        <p className='text-4xl font-medium mt-8 text-center text-green-700'>Welcome to {estate.name}</p>
         <img src={IF+estate.photo} alt='' className='rounded-xl w-[600px] h-[400px] mx-auto mt-16'/>
         <p className='text-3xl text-green-800 mt-8 text-center'>Select Your FLoor Plans Below </p>
         {/* <div className='flex justify-evenly max-w-6xl mx-auto mt-9 items-center'>
