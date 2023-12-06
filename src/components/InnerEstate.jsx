@@ -132,7 +132,7 @@ const InnerEstate = () => {
      
           <input onChange={(e)=>setLocation(e.target.value)} value={location} type="text" placeholder='Enter Location' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
          
-          <input onChange={(e)=>setStatus(e.target.value)} value={status} type="text" placeholder='Enter status' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
+          <input onChange={(e)=>setStatus(e.target.value)} value={status} type="text" placeholder='Enter status e.g new pre-leasing' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
 
         <input onChange={(e)=>setFile(e.target.files[0])} type="file" multiple  className='px-4'/>
            {/*  <div className='flex flex-col'>
