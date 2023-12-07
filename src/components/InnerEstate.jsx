@@ -2,7 +2,7 @@
 import {ImCross} from 'react-icons/im'
 import { useContext, useState, useEffect } from 'react'
 import { URL } from '../url'
-
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import {useNavigate, useParams } from 'react-router-dom'
 
@@ -127,6 +127,7 @@ const InnerEstate = () => {
 
         <div className='px-6 md:px-[200px] mt-8'>
         <h1 className='font-bold md:text-2xl text-xl text-green-800 text-center'>Add an Estate</h1>
+        <Link to="/estatescreated"><p className='text-green-600'>See Estates Created</p></Link>
         <form className='w-full flex flex-col space-y-4 md:space-y-8 mt-4'>
         <input onChange={(e)=>setName(e.target.value)} value={name} type="text" placeholder='Enter Estate Name' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
      

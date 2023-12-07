@@ -19,6 +19,10 @@ import CreateApartment from './pages/CreateApartment'
 import FindApartment from './pages/FindApartment'
 import ClientLogin from './pages/ClientLogin'
 import CreateEstate from './pages/CreateEstate'
+import About from './pages/About'
+import Communities from './pages/Communities'
+import ApartmentsCreated from './pages/ApartmentsCreated'
+import EstatesCreated from './pages/EstatesCreated'
 
 
 
@@ -41,6 +45,10 @@ const App = () => {
       <Route exact path="/register" element={<Register/>}/>
       <Route exact path="/findapartment" element={<FindApartment/>}/>
       <Route exact path="/clientlogin" element={<ClientLogin/>}/>
+      <Route exact path="/about" element={<About/>}/>
+      <Route exact path="/communities" element={<Communities/>}/>
+      <Route exact path="/apartmentscreated" element={<ApartmentsCreated/>}/>
+      <Route exact path="/estatescreated" element={<EstatesCreated/>}/>
       {/* <Route exact path="/hireorgig" element={<HirerOrGigWorker/>}/>
      
      

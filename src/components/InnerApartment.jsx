@@ -4,7 +4,7 @@ import { useContext, useState, useEffect } from 'react'
 import { URL } from '../url'
 
 import axios from 'axios'
-import {useNavigate, useParams } from 'react-router-dom'
+import {Link, useNavigate, useParams } from 'react-router-dom'
 
 
 
@@ -146,6 +146,7 @@ const InnerApartment = () => {
 
         <div className='px-6 md:px-[200px] mt-8'>
         <h1 className='font-bold md:text-2xl text-xl text-green-800 text-center'>Add an Apartment</h1>
+        <Link to="/apartmentscreated"><p className='text-green-600'>See Apartments Created</p></Link>
         <form className='w-full flex flex-col space-y-4 md:space-y-8 mt-4'>
         <input onChange={(e)=>setRoomName(e.target.value)} value={roomName} type="text" placeholder='Enter Apartment Name' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
         <input onChange={(e)=>setFloorsAvailable(e.target.value)} value={floorsAvailable} type="text" placeholder='Enter available floors ' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
