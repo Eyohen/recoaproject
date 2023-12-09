@@ -1,15 +1,17 @@
 import React,{ useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import Floorcard from './Floorcard'
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
 // import Loader from '../components/Loader'
 import { IF, URL } from "../url"
 
 
+
 const FloorPlans = () => {
   const {search}=useLocation()
   // console.log(search)
+  const estateId = useParams().id
   const [apartments,setApartments]=useState([])
   const [noResults,setNoResults]=useState(false)
   const [loader,setLoader]=useState(false)
@@ -19,8 +21,13 @@ const FloorPlans = () => {
     setLoader(true)
     try{
       const res = await axios.get(URL+"/api/apartments/"+search)
-      // console.log(res.data)
-      setApartments(res.data)
+      console.log('floorplandata', res.data)
+      // setApartments(res.data)
+      console.log('estateId', estateId);
+      setApartments(() => {
+        const filteredApartments = res.data.filter(apartment => apartment.estate._id === estateId);
+        return filteredApartments;
+      })
       if(res.data.length===0){
         setNoResults(true)
       }

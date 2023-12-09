@@ -47,7 +47,7 @@ const Featured = () => {
   return (
     <div className='bg-green-800 p-6 rounded-3xl max-w-6xl mx-auto mt-10'>
     <p className='text-white text-3xl text-center mt-3 font-medium '>Featured Properties</p>
-    <div className='flex space-x-3 overflow-x-scroll'>
+    <div className='flex space-x-3 md:flex-row flex-col justify-center items-center overflow-x-scroll'>
       {estates.map((estate) => ( <>
       <Link to={`/recoa/${estate._id}`}>
           <Featuredcard estate={estate} key={estate._id}/>

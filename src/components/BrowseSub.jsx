@@ -6,7 +6,7 @@ const BrowseSub = () => {
   return (
     <div className='border-green-700 border-2 p-6 rounded-3xl max-w-6xl mx-auto mt-10'>
         <p className='text-green-800 text-3xl text-center mt-3 '>Browse Submarkets</p>
-        <div className='md:flex space-x-3 text-center'>
+        <div className='flex space-x-3 md:flex-row flex-col justify-center items-center'>
         <SubCards/>
         <SubCards/>
         <SubCards/>
