@@ -23,6 +23,8 @@ import About from './pages/About'
 import Communities from './pages/Communities'
 import ApartmentsCreated from './pages/ApartmentsCreated'
 import EstatesCreated from './pages/EstatesCreated'
+import EditApartment from './pages/EditApartment'
+import EditEstate from './pages/EditEstate'
 
 
 
@@ -49,6 +51,8 @@ const App = () => {
       <Route exact path="/communities" element={<Communities/>}/>
       <Route exact path="/apartmentscreated" element={<ApartmentsCreated/>}/>
       <Route exact path="/estatescreated" element={<EstatesCreated/>}/>
+      <Route exact path="/editestate/:id" element={<EditEstate/>}/>
+      <Route exact path="/editapartment/:id" element={<EditApartment/>}/>
       {/* <Route exact path="/hireorgig" element={<HirerOrGigWorker/>}/>
      
      

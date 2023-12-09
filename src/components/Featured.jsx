@@ -23,6 +23,7 @@ const Featured = () => {
       const res = await axios.get(URL+"/api/estates/"+search)
       //console.log(res.data)
       setEstates(res.data)
+      console.log(res.data)
       if(res.data.length === 0){
         setNoResults(true)
       }

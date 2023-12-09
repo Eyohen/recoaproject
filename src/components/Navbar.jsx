@@ -17,9 +17,9 @@ const Navbar = () => {
     <div className='flex justify-between p-2 px-6'>
    <Link to={'/'}> <p className='text-green-700 font-bold text-3xl'>Recoa</p></Link>
     <div className='flex space-x-6'>
-    <Link to="/about"><p className='text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5' >About us</p></Link>
+    <Link to="/about"><p className='text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5 ' >About us</p></Link>
     {/* <Link to={user?'/findapartment':"/clientlogin" }><p className='text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5'>Find your Apartment</p></Link> */}
-    <Link to={'/findapartment'}><p className='text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5'>Find your Apartment</p></Link>
+    <Link to={'/findapartment'}><p className='text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5 '>Find your Apartment</p></Link>
     <Link to="/communities"><p className='text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5'>Communities</p></Link>
     </div>
 

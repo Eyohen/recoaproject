@@ -13,7 +13,7 @@ import {Link, useNavigate, useParams } from 'react-router-dom'
 const InnerApartment = () => {
      
   const param=useParams().id
-    
+  const navigate = useNavigate()
   const [roomName,setRoomName]=useState("")
   const [floorsAvailable,setFloorsAvailable]=useState("")
   const [location,setLocation]=useState("")
@@ -27,7 +27,7 @@ const InnerApartment = () => {
   const [cat,setCat]=useState("")
   const [cats,setCats]=useState([])
    const [updated,setUpdated]=useState(false)  
-   const [selectedEstate, setSelectedEstate] = useState("")
+   const [selectedEstate, setSelectedEstate] = useState([])
   const [isAvailable, setIsAvailable] = useState(false);
   // const options = [
   //   {label: "Red", value:1},
@@ -35,12 +35,12 @@ const InnerApartment = () => {
   //   {label: "Blue", value:3},
   //   {label: "Yellow", value:4},
   // ]
-  const [value, setValue] = useState('')
+  // const [value, setValue] = useState('')
   const [estate, setEstate] = useState([])
 
-  // function handleSelect(event) {
-  //   setValue(event.target.value)
-  // }
+  const handleSelect = (event) => {
+    setSelectedEstate(event.target.value)
+  }
 
   
 
@@ -124,8 +124,17 @@ const InnerApartment = () => {
 
     try{
       const res=await axios.post("http://localhost:9000/api/apartments/create",post,{withCredentials:true})
-      //navigate("/posts/post/"+res.data._id)
-      // console.log(res.data)
+      navigate('/apartmentscreated')
+      setRoomName("")
+      setFloorsAvailable("")
+      setDescription("")
+      setBedroom("")
+      setBathroom("")
+      setPrice("")
+      setSize("")
+      setType("")
+      setLocation("")
+      console.log(post)
   
     }
     catch(err){
@@ -157,44 +166,30 @@ const InnerApartment = () => {
           <input onChange={(e)=>setSize(e.target.value)} value={size} type="text" placeholder='Enter size' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
           <input onChange={(e)=>setBathroom(e.target.value)} value={bathroom} type="text" placeholder='Enter number of bathrooms' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
 
-          <p className='text-green-600 '>Select what Apartment</p>
-          <select  onChange={(e)=>setSelectedEstate(e.target.value)} className=''>
+          
+          <select value={selectedEstate} onChange={handleSelect} className=''>
+            <option value="">Select Estate:</option>
             {estate.map(item => (
-              <option  key={item._id} value={item._id}>{item.name}</option>
+              <option key={item._id} value={item._id}>{item.name}</option>
             ) )}
           </select>
-          <p className='text-black'>{value}</p>
+          {/* {selectedEstate ? <div>Selected Estate:  {selectedEstate} </div> : ''} */}
 
 
           <input onChange={(e)=>setFile(e.target.files[0])} type="file" multiple  className='px-4'/>
-          <div className='flex flex-col'>
-            <div className='flex items-center space-x-4 md:space-x-8'>
-                <input value={cat} onChange={(e)=>setCat(e.target.value)} className='px-4 py-2 outline-none border border-gray-400 rounded-lg' placeholder='Please list your skills' type="text"/>
-                <div onClick={addCategory} className='bg-black text-white px-4 py-2 font-semibold cursor-pointer'>Add</div>
-            </div>
+        
+      
+          
 
-            {/* categories */}
-            <div className='flex px-4 mt-3'>
-            {cats?.map((c,i)=>(
-                <div key={i} className='flex justify-center items-center space-x-2 mr-4 bg-gray-200 px-2 py-1 rounded-md'>
-                <p>{c}</p>
-                <p onClick={()=>deleteCategory(i)} className='text-white bg-black rounded-full cursor-pointer p-1 text-sm'><ImCross/></p>
-            </div>
-            ))}
-            
-            
-            </div>
-          </div>
-
-              <div className='flex space-x-3'>
+              {/* <div className='flex space-x-3'>
           <input checked={isAvailable} type="checkbox" value={isAvailable} onChange={() => setIsAvailable(isAvailable => !isAvailable)}
            className='border border-green-600 rounded-full '/>
           <p>Available for a Gig</p>
-          </div>
+          </div> */}
 
 
-          <p>Post your bio/description</p>
-          <textarea onChange={(e)=>setDesc(e.target.value)} value={desc} rows={15} cols={30} className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg' placeholder='Give a description of the apartment'/>
+          
+          {/* <textarea onChange={(e)=>setDesc(e.target.value)} value={desc} rows={15} cols={30} className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg' placeholder='Give a description of the apartment'/> */}
           {/* <button onClick={handleCreate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Create</button> */}
           <button onClick={handleCreate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Create Apartment</button>
           {updated && <h3 className="text-green-500 text-sm text-center mt-4">profile updated successfully!</h3>}

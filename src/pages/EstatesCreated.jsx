@@ -1,49 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import { URL, IF } from '../url'
-
-
-const data = [{
-    id: 14664,
-    tenant: "Shell Intl",
-    email: "shell.nigeria@gmail.com",
-    phone: "0907837433",
-    status: "preleasing",
-    date: "19-03-2024",
-    type: "studio",
-    time: "3pm",
-
-},
-{
-    id: 14664,
-    tenant: "Chevron",
-    email: "chevron.nigeria@gmail.com",
-    phone: "0907837433",
-    status: "waitlisting",
-    date: "19-03-2024",
-    type: "studio",
-    time: "3pm",
-
-},
-{
-    id: 14664,
-    tenant: "ExxonMobil",
-    email: "exxon.nigeria@gmail.com",
-    phone: "0907837433",
-    status: "preleasing",
-    date: "19-03-2024",
-    type: "studio",
-    time: "3pm",
-
-}
-
-]
+import { SlPencil } from "react-icons/sl";
+import { SlArrowLeft } from "react-icons/sl";
+import { SlTrash } from "react-icons/sl";
+import { UserContext } from "../context/UserContext"
 
 
 
 
 const EstatesCreated = () => {
+  const navigate=useNavigate()
     const [showConfirmation, setShowConfirmation] = useState("")
     const [items, setItems] = useState([])
 
@@ -63,12 +31,29 @@ const EstatesCreated = () => {
 
     }
 
+    const handleDelete=async(itemId)=>{
+      try{
+        const res = await axios.delete(URL+"/api/estates/"+itemId,{withCredentials:true})
+        setItems((prevData) => prevData.filter(item => item._id !== itemId));
+        console.log(res.data)
+      }
+      catch(err){
+        console.log(err)
+      }
+    }
+
+
 
   return (
     <div className='w-full'>
         <div className='flex justify-evenly border h-12 bg-white'>
         <p>AdminNav</p>
         <p>AdminNav</p>
+        </div>
+
+        <div onClick={() => navigate(-1)} className="flex items-center space-x-3 pt-6 px-12">
+        <SlArrowLeft />
+        <h1 className='font-bold md:text-2xl text-xl '>Back</h1>
         </div>
 
       
@@ -121,6 +106,12 @@ const EstatesCreated = () => {
             <th scope="col" class="px-6 py-3 font-light">
               date
             </th>
+            <th scope="col" class="px-6 py-3 font-light">
+              edit
+            </th>
+            <th scope="col" class="px-6 py-3 font-light">
+              delete
+            </th>
             {/* <th scope="col" class="px-6 py-3 font-light">
               time
             </th>
@@ -145,7 +136,7 @@ const EstatesCreated = () => {
                 class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200"
                 key={item._id}
               >
-                 <td class="px-6 py-2">{1}</td>
+                 <td class="px-6 py-2">{item._id.slice(0,6)}</td>
                 {/* <th
                   scope="row"
                   class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -166,9 +157,11 @@ const EstatesCreated = () => {
                    {user.type}
                     </td> */}
                 <td class="px-6 py-4">
-                {item.status == "New pre-leasing" ?  ( <p className='bg-green-400 px-1 rounded-3xl text-white'>{item.status}</p>) : ( <p className='bg-red-400 px-1 rounded-3xl text-white'>{item.status}</p>)}
+                {item.status == "New pre-leasing" ?  ( <p className='bg-green-400 text-center rounded-3xl text-white'>{item.status}</p>) : ( <p className='bg-red-400  rounded-full text-center text-white'>{item.status}</p>)}
                 </td>
                 <td class="px-6 py-2">{item.createdAt}</td>
+                <Link to={`/editestate/${item._id}`}><td class="px-6 py-2"><SlPencil className='mt-3' /></td></Link>
+                <td class="px-6 py-2" onClick={() => handleDelete(item._id)}><SlTrash className='text-red-800'/></td>
                 {/* <td class="px-6 py-4">{user.BetTribeLog.betwinnerId}</td>
                 <td class="px-6 py-4">{user.BetTribeLog.BetTribe.name}</td> */}
                 {/* <td class="px-6 py-4">

@@ -13,6 +13,7 @@ import {useNavigate, useParams } from 'react-router-dom'
 const InnerEstate = () => {
      
   const param=useParams().id
+  const navigate = useNavigate()
     
   const [name,setName]=useState("")
   const [description,setDescription]=useState("")
@@ -101,7 +102,7 @@ const InnerEstate = () => {
     try{
       const res=await axios.post("http://localhost:9000/api/estates/create",post,{withCredentials:true})
       //navigate("/posts/post/"+res.data._id)
-      console.log(res.data)
+    navigate('/estatescreated')
       setName("")
       setDescription("")
       setLocation("")

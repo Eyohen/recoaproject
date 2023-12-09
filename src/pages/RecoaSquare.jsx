@@ -41,7 +41,7 @@ const RecoaSquare = () => {
         </div> */}
 
         <div className=' justify-evenly max-w-6xl mx-auto mt-9 items-center mb-12'>
-            <p>{estate.description}</p>
+            <p className='text-center'>{estate.description}</p>
          
         </div>
         <FloorPlans/>
