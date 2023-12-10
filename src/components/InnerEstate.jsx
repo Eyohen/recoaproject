@@ -166,7 +166,7 @@ const InnerEstate = () => {
           <p>Write a description about the estate</p>
           <textarea onChange={(e)=>setDescription(e.target.value)} value={description} rows={15} cols={30} className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg' placeholder='Give a description of the apartment'/>
           {/* <button onClick={handleCreate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Create</button> */}
-          <button onClick={handleCreate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Create Apartment</button>
+          <button onClick={handleCreate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Create Estate</button>
           {updated && <h3 className="text-green-500 text-sm text-center mt-4">profile updated successfully!</h3>}
           {/* handleUserUpdate */}
         </form>
