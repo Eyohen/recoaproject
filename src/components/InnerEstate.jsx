@@ -5,6 +5,7 @@ import { URL } from '../url'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import {useNavigate, useParams } from 'react-router-dom'
+import { UserContext } from '../context/UserContext'
 
 
 
@@ -14,6 +15,7 @@ const InnerEstate = () => {
      
   const param=useParams().id
   const navigate = useNavigate()
+  const {user}=useContext(UserContext)
     
   const [name,setName]=useState("")
   const [description,setDescription]=useState("")
@@ -28,34 +30,6 @@ const InnerEstate = () => {
   
 
 
-  //getting user details
-  // const fetchEstate = async ()=>{
-  //   try{
-  //     //  const res=await axios.get(URL+"/api/users/"+user._id)
-  //     const res=await axios.get(URL+"/api/users/"+param)
-  //      setRoomName(res.data.roomName)
-  //      setFloorsAvailable(res.data.floorsAvailable)
-  //      setBedroom(res.data.bedroom)
-  //      setType(res.data.type)
-  //      setDesc(res.data.desc)     
-  //      setPrice(res.data.price)
-  //      setBathroom(res.data.bathroom)
-  //      setSize(res.data.size)
-  //      setCats([...res.data.categories])
-  //      setLocation(res.data.location)
-  //      setIsAvailable(res.data.isAvailable)
-  //      console.log(res.data)
-     
-      
-  //   }
-  //   catch(err){
-  //      console.log(err)
-  //   }
-  // }
-
-//   useEffect(()=>{
-//     fetch()
-//   },[param])
   
 
  
@@ -100,7 +74,7 @@ const InnerEstate = () => {
 
 
     try{
-      const res=await axios.post(URL+"/api/estates/create",post,{withCredentials:true})
+      const res = await axios.post(URL+"/api/estates/create",post,{withCredentials:true})
       //navigate("/posts/post/"+res.data._id)
     navigate('/estatescreated')
       setName("")

@@ -111,7 +111,7 @@ const InnerApartment = () => {
       console.log(data)
       //img upload
       try{
-        const imgUpload=await axios.post(URL+"/api/upload",data)
+        const imgUpload = await axios.post(URL+"/api/upload",data)
         // console.log(imgUpload.data)
         
       }
