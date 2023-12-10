@@ -62,7 +62,7 @@ const FloorPlans = () => {
         )):<h3 className="text-center font-bold mt-16">No posts available</h3>}
     </div> */}
 
-<div className='flex space-x-3 overflow-x-scroll'>
+<div className='flex space-x-3 md:flex-row flex-col justify-center items-center overflow-x-scroll'>
     {apartments.map((apartment) => (
       <>
       {/* <Link to={user?`/posts/post/${available._id}`:"/login"}> */}
