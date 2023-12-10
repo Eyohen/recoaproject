@@ -100,7 +100,7 @@ const InnerEstate = () => {
 
 
     try{
-      const res=await axios.post("http://localhost:9000/api/estates/create",post,{withCredentials:true})
+      const res=await axios.post(URL+"/api/estates/create",post,{withCredentials:true})
       //navigate("/posts/post/"+res.data._id)
     navigate('/estatescreated')
       setName("")

@@ -123,7 +123,7 @@ const InnerApartment = () => {
 
 
     try{
-      const res=await axios.post("http://localhost:9000/api/apartments/create",post,{withCredentials:true})
+      const res=await axios.post(URL+"/api/apartments/create",post,{withCredentials:true})
       navigate('/apartmentscreated')
       setRoomName("")
       setFloorsAvailable("")
