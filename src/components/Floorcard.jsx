@@ -50,7 +50,7 @@ const Floorcard = ({apartment}) => {
   
 
   return (
-    <Link to={'/recoa'}>
+   
     <div className='relative mt-6'>
  
    {/* <div class="absolute top-6 flex w-full">
@@ -91,7 +91,7 @@ const Floorcard = ({apartment}) => {
             <button onClick={increase} className='bg-green-700 rounded-full px-2'><HiPlusSmall /></button>
             </div>
             {/* <div className='items-center justify-center '> */}
-            <button className='bg-green-700 px-2 rounded-full mx-32 mt-6'>Submit</button>
+            <button className='bg-green-700 px-2 rounded-full mx-32 mt-6' onClick={toggleModal}>Submit</button>
             {/* </div> */}
             <button className="close-modal" onClick={toggleModal}>
               CLOSE
@@ -103,7 +103,7 @@ const Floorcard = ({apartment}) => {
       )} 
    
     </div>
-    </Link>
+
   )
 }
 
