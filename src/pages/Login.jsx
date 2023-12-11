@@ -11,19 +11,28 @@ const Login = () => {
   const [password,setPassword]=useState("")
   const [error,setError]=useState(false)
   const {setUser}=useContext(UserContext)
+  const [isLoading, setIsLoading] = useState(false);
   const navigate=useNavigate()
 
   const handleLogin=async()=>{
+    setIsLoading(true); 
     try{
-      const res = await axios.post(URL+"/api/auth/login",{email,password},{withCredentials:true})
-      // console.log(res.data)
-      setUser(res.data)
-      navigate("/adminpage")
+      // const res = await axios.post(URL+"/api/auth/login",{email,password},{withCredentials:true})
+      const res = await axios.post(URL+"/api/auth/login",{email,password})
 
+      const { access_token } = res.data;
+ 
+      if(res.status == 200){
+        localStorage.setItem("access_token", access_token)   
+        setUser(res.data)
+        navigate("/adminpage")
+      }
     }
     catch(err){
       setError(true)
       console.log(err)
+    } finally {
+      setIsLoading(false); // Set loading back to false
     }
 
   }

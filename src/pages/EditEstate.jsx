@@ -197,7 +197,18 @@ const EditEstate = () => {
       //post upload
      
       try{
-        const res = await axios.put(URL+"/api/estates/"+estateId,estate,{withCredentials:true})
+
+        const accessToken = localStorage.getItem("access_token");
+
+        if(!accessToken){
+              // Handle the case where the access token is not available
+          console.error('Access token not found')
+        }
+        const res = await axios.put(URL+"/api/estates/"+estateId,estate,{
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         navigate(-1)
         // console.log(res.data)
 

@@ -29,7 +29,18 @@ const EditApartment = () => {
 
     const fetchApartments = async()=>{
       try{
-        const res=await axios.get(URL+"/api/apartments/"+apartmentId)
+        const accessToken = localStorage.getItem("access_token");
+
+        if(!accessToken){
+              // Handle the case where the access token is not available
+          console.error('Access token not found')
+        }
+
+        const res=await axios.get(URL+"/api/apartments/"+apartmentId,{
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         setRoomName(res.data.roomName)
         setFloorsAvailable(res.data.floorsAvailable)
         setDescription(res.data.description)
@@ -74,7 +85,18 @@ const EditApartment = () => {
         // console.log(data)
         //img upload
         try{
-          const imgUpload=await axios.post(URL+"/api/upload",data)
+          const accessToken = localStorage.getItem("access_token");
+
+          if(!accessToken){
+                // Handle the case where the access token is not available
+            console.error('Access token not found')
+          }
+
+          const imgUpload = await axios.post(URL+"/api/upload",data,{
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
           // console.log(imgUpload.data)
         }
         catch(err){
@@ -84,7 +106,18 @@ const EditApartment = () => {
       //post upload
      
       try{
-        const res=await axios.put(URL+"/api/apartments/"+apartmentId,apartment,{withCredentials:true})
+        const accessToken = localStorage.getItem("access_token");
+
+        if(!accessToken){
+              // Handle the case where the access token is not available
+          console.error('Access token not found')
+        }
+
+        const res=await axios.put(URL+"/api/apartments/"+apartmentId,apartment,{
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         navigate("/apartmentscreated")
         // console.log(res.data)
 

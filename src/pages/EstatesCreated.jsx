@@ -16,7 +16,21 @@ const EstatesCreated = () => {
     const [items, setItems] = useState([])
 
     const fetchApartments = async () => {
-        const res = await axios.get(URL+"/api/estates")
+
+      const accessToken = localStorage.getItem("access_token");
+
+      if(!accessToken){
+            // Handle the case where the access token is not available
+        console.error('Access token not fund')
+      }
+
+
+        const res = await axios.get(URL+"/api/estates",{
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+        )
         setItems(res.data)
         console.log(res.data)
     }
@@ -33,7 +47,19 @@ const EstatesCreated = () => {
 
     const handleDelete=async(itemId)=>{
       try{
-        const res = await axios.delete(URL+"/api/estates/"+itemId,{withCredentials:true})
+        const accessToken = localStorage.getItem("access_token");
+
+        if(!accessToken){
+              // Handle the case where the access token is not available
+          console.error('Access token not found')
+        }
+  
+  
+        const res = await axios.delete(URL+"/api/estates/"+itemId,{
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         setItems((prevData) => prevData.filter(item => item._id !== itemId));
         console.log(res.data)
       }

@@ -5,6 +5,7 @@ import { URL } from '../url'
 
 import axios from 'axios'
 import {Link, useNavigate, useParams } from 'react-router-dom'
+import { UserContext } from '../context/UserContext'
 
 
 
@@ -51,16 +52,7 @@ const InnerApartment = () => {
       //  const res=await axios.get(URL+"/api/users/"+user._id)
       const res=await axios.get(URL+"/api/estates/")
        setEstate(res.data)
-      //  setFloorsAvailable(res.data.floorsAvailable)
-      //  setBedroom(res.data.bedroom)
-      //  setType(res.data.type)
-      //  setDesc(res.data.desc)     
-      //  setPrice(res.data.price)
-      //  setBathroom(res.data.bathroom)
-      //  setSize(res.data.size)
-      //  setCats([...res.data.categories])
-      //  setLocation(res.data.location)
-      //  setIsAvailable(res.data.isAvailable)
+     
        console.log(res.data)
      
       
@@ -111,7 +103,18 @@ const InnerApartment = () => {
       console.log(data)
       //img upload
       try{
-        const imgUpload = await axios.post(URL+"/api/upload",data)
+        const accessToken = localStorage.getItem("access_token");
+
+      if(!accessToken){
+            // Handle the case where the access token is not available
+        console.error('Access token not fund')
+      }
+
+        const imgUpload = await axios.post(URL+"/api/upload",data,{
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         // console.log(imgUpload.data)
         
       }
@@ -123,7 +126,20 @@ const InnerApartment = () => {
 
 
     try{
-      const res=await axios.post(URL+"/api/apartments/create",post,{withCredentials:true})
+      const accessToken = localStorage.getItem("access_token");
+
+      if(!accessToken){
+            // Handle the case where the access token is not available
+        console.error('Access token not fund')
+      }
+
+
+
+      const res=await axios.post(URL+"/api/apartments/create",post,{
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       navigate('/apartmentscreated')
       setRoomName("")
       setFloorsAvailable("")

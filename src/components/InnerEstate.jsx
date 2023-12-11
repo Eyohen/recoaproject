@@ -62,7 +62,17 @@ const InnerEstate = () => {
       console.log(data)
       //img upload
       try{
-        const imgUpload=await axios.post(URL+"/api/upload",data)
+        const accessToken = localStorage.getItem("access_token");
+
+        if(!accessToken){
+              // Handle the case where the access token is not available
+          console.error('Access token not found')
+        }
+        const imgUpload=await axios.post(URL+"/api/upload",data,{
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         // console.log(imgUpload.data)
         
       }
@@ -74,14 +84,27 @@ const InnerEstate = () => {
 
 
     try{
-      const res = await axios.post(URL+"/api/estates/create",post,{withCredentials:true})
-      //navigate("/posts/post/"+res.data._id)
-    navigate('/estatescreated')
-      setName("")
-      setDescription("")
-      setLocation("")
-      setStatus("")
-    
+      const accessToken = localStorage.getItem("access_token");
+
+      if(!accessToken){
+            // Handle the case where the access token is not available
+        console.error('Access token not fund')
+      }
+
+      const res = await axios.post(URL+"/api/estates/create",post, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          
+        },
+      })
+ 
+      
+         navigate('/estatescreated')
+         setName("")
+         setDescription("")
+         setLocation("")
+         setStatus("")
+         console.log(res.data)
   
     }
     catch(err){

@@ -34,7 +34,18 @@ const ApartmentsCreated = () => {
 
     const handleDelete=async(itemId)=>{
       try{
-        const res = await axios.delete(URL+"/api/apartments/"+itemId,{withCredentials:true})
+        const accessToken = localStorage.getItem("access_token");
+
+        if(!accessToken){
+              // Handle the case where the access token is not available
+          console.error('Access token not found')
+        }
+
+        const res = await axios.delete(URL+"/api/apartments/"+itemId,{
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         setItems((prevData) => prevData.filter(item => item._id !== itemId));
         console.log(res.data)
       }
