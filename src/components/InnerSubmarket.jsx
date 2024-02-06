@@ -11,19 +11,15 @@ import { UserContext } from '../context/UserContext'
 
 
 
-const InnerEstate = () => {
+const InnerSubmarket = () => {
      
-  const param=useParams().id
+  
   const navigate = useNavigate()
   const {user}=useContext(UserContext)
     
   const [name,setName]=useState("")
   const [description,setDescription]=useState("")
-  const [location,setLocation]=useState("")
-  const [status,setStatus]=useState("")
   const [file,setFile]=useState(null)
-  const [cat,setCat]=useState("")
-  const [cats,setCats]=useState([])
    const [updated,setUpdated]=useState(false)  
   const [isAvailable, setIsAvailable] = useState(false);
 
@@ -47,10 +43,7 @@ const InnerEstate = () => {
     const post={
       name,
       description,
-      location,
-      status,
-      categories:cats,
-
+     
     }
 
     if(file){
@@ -88,10 +81,10 @@ const InnerEstate = () => {
 
       if(!accessToken){
             // Handle the case where the access token is not available
-        console.error('Access token not fund')
+        console.error('Access token not found')
       }
 
-      const res = await axios.post(URL+"/api/estates/create",post, {
+      const res = await axios.post(URL+"/api/submarkets/create",post, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           
@@ -99,11 +92,10 @@ const InnerEstate = () => {
       })
  
       
-         navigate('/estatescreated')
+         navigate('/submarketscreated')
          setName("")
          setDescription("")
-         setLocation("")
-         setStatus("")
+         
          console.log(res.data)
   
     }
@@ -119,20 +111,18 @@ const InnerEstate = () => {
   return (
     <div className='w-full bg-gray-200'>
         <div className='flex justify-evenly border h-12 bg-white'>
-        <p>AdminNav</p>
-        <p>AdminNav</p>
+        <p>Administration</p>
+        <p>Administration</p>
+
         </div>
 
         <div className='px-6 md:px-[200px] mt-8'>
-        <h1 className='font-bold md:text-2xl text-xl text-green-800 text-center'>Add an Estate</h1>
-        <Link to="/estatescreated"><p className='text-green-600'>See Estates Created</p></Link>
+        <h1 className='font-bold md:text-2xl text-xl text-green-800 text-center'>Add a Submarket</h1>
+        <Link to="/submarketscreated"><p className='text-green-600'>See Submarkets Created</p></Link>
         <form className='w-full flex flex-col space-y-4 md:space-y-8 mt-4'>
-        <input onChange={(e)=>setName(e.target.value)} value={name} type="text" placeholder='Enter Estate Name' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
+        <input onChange={(e)=>setName(e.target.value)} value={name} type="text" placeholder='Enter Submarket Name' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
      
-          <input onChange={(e)=>setLocation(e.target.value)} value={location} type="text" placeholder='Enter Location' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
-         
-          <input onChange={(e)=>setStatus(e.target.value)} value={status} type="text" placeholder='Enter status e.g new pre-leasing' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
-
+        
         <input onChange={(e)=>setFile(e.target.files[0])} type="file" multiple  className='px-4'/>
            {/*  <div className='flex flex-col'>
             <div className='flex items-center space-x-4 md:space-x-8'>
@@ -160,10 +150,10 @@ const InnerEstate = () => {
           </div> */}
 
 
-          <p>Write a description about the estate</p>
-          <textarea onChange={(e)=>setDescription(e.target.value)} value={description} rows={15} cols={30} className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg' placeholder='Give a description of the apartment'/>
+          <p>Write a description about the submarket</p>
+          <textarea onChange={(e)=>setDescription(e.target.value)} value={description} rows={15} cols={30} className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg' placeholder='Give a description of the submarket'/>
           {/* <button onClick={handleCreate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Create</button> */}
-          <button onClick={handleCreate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Create Estate</button>
+          <button onClick={handleCreate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Create Submarket</button>
           {updated && <h3 className="text-green-500 text-sm text-center mt-4">profile updated successfully!</h3>}
           {/* handleUserUpdate */}
         </form>
@@ -179,4 +169,4 @@ const InnerEstate = () => {
   )
 }
 
-export default InnerEstate
+export default InnerSubmarket

@@ -14,7 +14,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate=useNavigate()
 
-  const handleLogin=async()=>{
+  const handleLogin = async()=>{
     setIsLoading(true); 
     try{
       // const res = await axios.post(URL+"/api/auth/login",{email,password},{withCredentials:true})
@@ -23,7 +23,8 @@ const Login = () => {
       const { access_token } = res.data;
  
       if(res.status == 200){
-        localStorage.setItem("access_token", access_token)   
+        localStorage.setItem("access_token", access_token)
+        localStorage.setItem("currentUser", JSON.stringify(res.data))
         setUser(res.data)
         navigate("/adminpage")
       }

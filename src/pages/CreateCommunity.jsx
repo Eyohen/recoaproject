@@ -1,14 +1,14 @@
 import React from 'react'
-import InnerApartment from '../components/InnerApartment'
+import InnerCommunity from '../components/InnerCommunity'
 import Sidebar from '../components/Sidebar'
 
-const CreateApartment = () => {
+const CreateCommunity = () => {
   return (
     <div className='flex'>
           <Sidebar/>
-          <InnerApartment/>
+          <InnerCommunity/>
     </div>
   )
 }
 
-export default CreateApartment
+export default CreateCommunity

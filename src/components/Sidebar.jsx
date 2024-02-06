@@ -8,8 +8,11 @@ const Sidebar = () => {
 
     <div className='text-center mt-6 space-y-6'>
        <Link to={'/adminpage'}><p>Dashboard</p></Link>
-       <Link to={'/createapart'}><p className='mt-6'>Apartment</p></Link>
-       <Link to={'/createestate'}><p className='mt-6'>Estate</p></Link>
+       <Link to={'/createtenant'}><p className='mt-6'>Tenant</p></Link>
+       <Link to={'/createunittype'}><p className='mt-6'>Units</p></Link>
+       <Link to={'/createcommunity'}><p className='mt-6'>Community</p></Link>
+       <Link to={'/createsubmarket'}><p className='mt-6'>Submarket</p></Link>
+     
       
       
     

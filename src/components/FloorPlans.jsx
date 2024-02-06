@@ -11,8 +11,8 @@ import { IF, URL } from "../url"
 const FloorPlans = () => {
   const {search}=useLocation()
   // console.log(search)
-  const estateId = useParams().id
-  const [apartments,setApartments]=useState([])
+  const submarketId = useParams().id
+  const [communities,setCommunities]=useState([])
   const [noResults,setNoResults]=useState(false)
   const [loader,setLoader]=useState(false)
   const {user}=useContext(UserContext)
@@ -20,13 +20,13 @@ const FloorPlans = () => {
   const fetchPosts=async()=>{
     setLoader(true)
     try{
-      const res = await axios.get(URL+"/api/apartments/"+search)
+      const res = await axios.get(URL+"/api/communities/"+search)
       console.log('floorplandata', res.data)
-      // setApartments(res.data)
-      console.log('estateId', estateId);
-      setApartments(() => {
-        const filteredApartments = res.data.filter(apartment => apartment.estate._id === estateId);
-        return filteredApartments;
+      // setCommunities(res.data)
+      console.log('submarketId', submarketId);
+      setCommunities(() => {
+        const filteredCommunities = res.data.filter(community => community.submarket._id === submarketId);
+        return filteredCommunities;
       })
       if(res.data.length===0){
         setNoResults(true)
@@ -63,11 +63,11 @@ const FloorPlans = () => {
     </div> */}
 
 <div className='flex space-x-3 md:flex-row flex-col justify-center items-center overflow-x-scroll'>
-    {apartments.map((apartment) => (
+    {communities.map((community) => (
       <>
       {/* <Link to={user?`/posts/post/${available._id}`:"/login"}> */}
       
-         <Floorcard key={apartment._id} apartment={apartment}/>
+         <Floorcard key={community._id} community={community}/>
       
       {/* </Link> */}
       </>

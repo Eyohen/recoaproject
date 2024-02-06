@@ -19,8 +19,9 @@ const Navbar = () => {
     <div className='flex space-x-6'>
     <Link to="/about"><p className='hidden md:block text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5 ' >About us</p></Link>
     {/* <Link to={user?'/findapartment':"/clientlogin" }><p className='text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5'>Find your Apartment</p></Link> */}
-    <Link to={'/findapartment'}><p className='hidden md:block text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5 '>Find your Apartment</p></Link>
+    <Link to={'/findcommunity'}><p className='hidden md:block text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5 '>Find your Apartment</p></Link>
     <Link to="/communities"><p className='hidden md:block text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5'>Communities</p></Link>
+    <Link to="/corperatepage"><p className='hidden md:block text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5'>Corperate tenants</p></Link>
     </div>
 
 

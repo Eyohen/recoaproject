@@ -9,7 +9,7 @@ import { UserContext } from "../context/UserContext"
 import { SlArrowLeft } from "react-icons/sl";
 
 
-const EditApartment = () => {
+const EditCommunity = () => {
 
     const apartmentId=useParams().id
     const {user}=useContext(UserContext)
@@ -27,7 +27,7 @@ const EditApartment = () => {
     const [file,setFile]=useState(null)
     
 
-    const fetchApartments = async()=>{
+    const fetchCommunities = async()=>{
       try{
         const accessToken = localStorage.getItem("access_token");
 
@@ -36,7 +36,7 @@ const EditApartment = () => {
           console.error('Access token not found')
         }
 
-        const res=await axios.get(URL+"/api/apartments/"+apartmentId,{
+        const res=await axios.get(URL+"/api/communities/"+communityId,{
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -130,8 +130,8 @@ const EditApartment = () => {
     
 
     useEffect(()=>{
-      fetchApartments()
-    },[apartmentId])
+      fetchCommunities()
+    },[communityId])
 
 
 
@@ -173,4 +173,4 @@ const EditApartment = () => {
   )
 }
 
-export default EditApartment
+export default EditCommunity

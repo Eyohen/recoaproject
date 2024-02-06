@@ -11,7 +11,8 @@ const FindSide = () => {
 
     const getItems = async () => {
         try{
-        const res = await axios.get(URL+"/api/apartments/")
+        // const res = await axios.get(URL+"/api/communities/")
+        const res = await axios.get(URL+"/api/submarkets/")
         setItems(res.data)
         console.log(res.data)
 

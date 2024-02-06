@@ -11,7 +11,8 @@ const AdminDashboard = () => {
       <ul class="mt-6 space-y-1">
         <li>
           <a href="" class="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700">
-            General
+            General 
+
           </a>
         </li>
   

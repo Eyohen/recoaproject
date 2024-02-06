@@ -1,14 +1,14 @@
 import React from 'react'
 import Sidebar from '../components/Sidebar'
-import InnerEstate from '../components/InnerEstate'
+import InnerTenant from '../components/InnerTenant'
 
-const CreateEstate = () => {
+const CreateTenant = () => {
   return (
     <div className='flex'>
     <Sidebar/>
-    <InnerEstate/>
+    <InnerTenant/>
 </div>
   )
 }
 
-export default CreateEstate
+export default CreateTenant

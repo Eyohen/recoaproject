@@ -2,7 +2,7 @@ import React from 'react'
 import FindSide from '../components/FindSide'
 import FindNav from '../components/FindNav'
 
-const FindApartment = () => {
+const FindCommunity = () => {
   return (
     <div className='flex' >
    
@@ -18,4 +18,4 @@ const FindApartment = () => {
   )
 }
 
-export default FindApartment
+export default FindCommunity

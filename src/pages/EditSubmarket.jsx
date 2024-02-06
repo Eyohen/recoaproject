@@ -1,4 +1,4 @@
-// import { useContext, useEffect, useState } from "react"
+// import { useContext, useEffecSubmarket} from "react"
 // // import Footer from "../components/Footer"
 // // import Navbar from "../components/Navbar"
 // import {ImCross} from 'react-icons/im'
@@ -8,7 +8,7 @@
 // import { UserContext } from "../context/UserContext"
 
 
-// const EditEstate = () => {
+// constSubmarket= () => {
 
 //     const postId=useParams().id
 //     const {user}=useContext(UserContext)
@@ -140,9 +140,9 @@ import { UserContext } from "../context/UserContext"
 import { SlArrowLeft } from "react-icons/sl";
 
 
-const EditEstate = () => {
+const EditSubmarket = () => {
 
-    const estateId=useParams().id
+    const submarketId=useParams().id
     const {user}=useContext(UserContext)
     const navigate=useNavigate()
     const [name,setName]=useState("")
@@ -154,9 +154,9 @@ const EditEstate = () => {
     const [file,setFile]=useState(null)
     
 
-    const fetchEstates = async()=>{
+    const fetchSubmarkets = async()=>{
       try{
-        const res=await axios.get(URL+"/api/estates/"+estateId)
+        const res = await axios.get(URL+"/api/submarkets/"+submarketId)
         setName(res.data.name)
         setDescription(res.data.description)
         setFile(res.data.photo)
@@ -171,7 +171,7 @@ const EditEstate = () => {
 
     const handleUpdate = async (e)=>{
       e.preventDefault()
-      const estate = {
+        submarket = {
         name,
         description,
         location,
@@ -183,7 +183,7 @@ const EditEstate = () => {
         const filename=Date.now()+file.name
         data.append("img",filename)
         data.append("file",file)
-        estate.photo=filename
+        submarket.photo=filename
         // console.log(data)
         //img upload
         try{
@@ -204,7 +204,7 @@ const EditEstate = () => {
               // Handle the case where the access token is not available
           console.error('Access token not found')
         }
-        const res = await axios.put(URL+"/api/estates/"+estateId,estate,{
+        const res = await axios.put(URL+"/api/submarkets/"+submarketId,submarket,{
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -221,8 +221,8 @@ const EditEstate = () => {
     
 
     useEffect(()=>{
-      fetchEstates()
-    },[estateId])
+      fetchSubmarkets()
+    },[submarketId])
 
 
 
@@ -234,9 +234,9 @@ const EditEstate = () => {
         <SlArrowLeft />
         <h1 className='font-bold md:text-2xl text-xl '>Back</h1>
         </div>
-        <h1 className='font-bold md:text-2xl text-xl text-center '>Update an Estate</h1>
+        <h1 className='font-bold md:text-2xl text-xl text-center '>Update a Submarket</h1>
         <form className='w-full flex flex-col space-y-4 md:space-y-8 mt-4'>
-          <input onChange={(e)=>setName(e.target.value)} value={name} type="text" placeholder='Enter Estate Name' className='px-4 py-2 border outline-none text-gray-400'/>
+          <input onChange={(e)=>setName(e.target.value)} value={name} type="text" placeholder='Enter Submarket Name' className='px-4 py-2 border outline-none text-gray-400'/>
           <input onChange={(e)=>setStatus(e.target.value)} value={status} type="text" placeholder='Enter status' className='px-4 py-2 border outline-none text-gray-400'/>
           <input onChange={(e)=>setLocation(e.target.value)} value={location} type="text" placeholder='Enter location' className='px-4 py-2 border outline-none text-gray-400'/>
           {/* <input onChange={(e)=>setSize(e.target.value)} value={size} type="text" placeholder='Enter post title' className='px-4 py-2 outline-none'/> */}
@@ -250,7 +250,7 @@ const EditEstate = () => {
             </div>
           </div>
           <textarea onChange={(e)=>setDescription(e.target.value)} value={description} rows={15} cols={30} className='px-4 py-2 border outline-none' placeholder='Enter post description'/>
-          <button onClick={handleUpdate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Update Estate</button>
+          <button onClick={handleUpdate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Update Submarket</button>
         </form>
 
         </div>
@@ -259,4 +259,4 @@ const EditEstate = () => {
   )
 }
 
-export default EditEstate
+export default EditSubmarket

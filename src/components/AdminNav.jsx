@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState, useEffect } from 'react'
+import { Link, useParams, useNavigate } from 'react-router-dom'
+import {URL, IF} from '../url'
+import { UserContext } from '../context/UserContext'
 
+import axios from 'axios'
 
-const data = [{
+const datas = [{
     id: 14664,
     tenant: "Shell Intl",
     email: "shell.nigeria@gmail.com",
@@ -42,18 +45,73 @@ const data = [{
 
 
 const AdminNav = () => {
+  const {user,setUser}=useContext(UserContext)
     const [showConfirmation, setShowConfirmation] = useState("")
+    const [data, setData] = useState([])
+    const navigate = useNavigate()
+  
 
-    const handleSearch = () => {
+    // const fetchProfile = async () => {
+    //   try{
+    //     const accessToken = localStorage.getItem("access_token")
+    //     const currentUser = JSON.parse(localStorage.getItem("currentUser"))
+    //     console.log(typeof currentUser)
+  
+  
+    //     if(!currentUser){
+    //       return ;
+    //     }
+  
+  
+    //     if(!accessToken){
+    //       // Handle the case where the access token is not available
+    //   console.error('Access token not found')
+    // }
+  
+    //      const res = await axios.get(URL+"/api/users/"+currentUser?._id, {
+    //       headers: {
+    //         Authorization: `Bearer ${accessToken}`,
+    //       }
+    //     })
+        
+    //      console.log(res.data)
+    //      setData(res.data)
+    //   }
+    //   catch(err){
+    //      console.log(err)
+    //   }
+    // }
+    
+  
+    // useEffect(()=>{
+    //   fetchProfile()
+    
+    // },[])
+  
+    // const logOut = async () => {
+    //   localStorage.removeItem("access_token");
+    //   localStorage.removeItem("currentUser");
+    //   setData(null)
+    //   navigate("/admin")
+    // }  
+  
 
-    }
+      const logOut = async () => {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("currentUser");
+      setUser(null)
+      navigate("/admin")
+    }  
+  
 
 
   return (
     <div className='w-full bg-gray-200'>
-        <div className='flex justify-evenly border h-12 bg-white'>
-        <p>AdminNav</p>
-        <p>AdminNav</p>
+        <div className='flex justify-evenly border h-12 bg-white p-2'>
+        <p>Administration</p>
+        <p>{user? "logged In" : "Not logged in"}</p>
+
+        <button onClick={logOut} className='bg-green-400 px-4 text-white'>LogOut</button>
         </div>
 
         <div className='flex space-x-10 justify-center mt-6'>
@@ -102,7 +160,7 @@ const AdminNav = () => {
       </div> */}
 
       <h1 className="font-bold text-xl mt-10 text-center">
-        Participants
+        Apartments Booked
       </h1>
 
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-5">
@@ -143,7 +201,7 @@ const AdminNav = () => {
           {/* {data?.data?.participants
             .filter((user) => user.BetTribeLog !== null)
             .map((user, index) => ( */}
-            {data.map((user, index) => (
+            {datas.map((user, index) => (
               <tr
                 class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200"
                 key={user.id}
