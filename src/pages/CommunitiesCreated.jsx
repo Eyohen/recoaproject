@@ -71,7 +71,7 @@ const CommunitiesCreated = () => {
 
 
         <div className='max-w-[1100px] bg-white mx-auto'>
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-16">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-16">
       {/* <div className="flex justify-between">
         <Link to={"/home"}>
           <button className="bg-[#2C5C4B] p-2 text-white rounded-lg">
@@ -99,43 +99,28 @@ const CommunitiesCreated = () => {
         Communities Created
       </h1>
 
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-5">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-5">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr >
-          <th scope="col" class="px-6 py-3 font-light ">
+          <th scope="col" className="px-6 py-3 font-light ">
               id
             </th>
-            <th scope="col" class="px-6 py-3 font-light">
+            <th scope="col" className="px-6 py-3 font-light">
               Name
             </th>
-            <th scope="col" class="px-6 py-3 font-light">
-              floors
+            <th scope="col" className="px-6 py-3 font-light">
+              Status
             </th>
-            <th scope="col" class="px-6 py-3 font-light">
-              beds
+            <th scope="col" className="px-6 py-3 font-light">
+              description
             </th>
-            <th scope="col" class="px-6 py-3 font-light">
-              baths
-            </th>
-            <th scope="col" class="px-6 py-3 font-light">
-              price
-            </th>
-            <th scope="col" class="px-6 py-3 font-light">
-              size
-            </th>
-            <th scope="col" class="px-6 py-3 font-light">
-              type
-            </th>
-            <th scope="col" class="px-6 py-3 font-light">
-              location
-            </th>
-            <th scope="col" class="px-6 py-3 font-light">
+            <th scope="col" className="px-6 py-3 font-light">
               date
             </th>
-            <th scope="col" class="px-6 py-3 font-light">
+            <th scope="col" className="px-6 py-3 font-light">
               Edit
             </th>
-            <th scope="col" class="px-6 py-3 font-light">
+            <th scope="col" className="px-6 py-3 font-light">
               delete
             </th>
             {/* <th scope="col" class="px-6 py-3 font-light ">
@@ -153,10 +138,10 @@ const CommunitiesCreated = () => {
             .map((user, index) => ( */}
             {items.map((item) => (
               <tr
-                class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200"
+                className="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200"
                 key={item._id}
               >
-                 <td class="px-6 py-2">{item._id.slice(0,3)}</td>
+                 <td className="px-6 py-2">{item._id.slice(0,3)}</td>
                 {/* <th
                   scope="row"
                   class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -168,19 +153,12 @@ const CommunitiesCreated = () => {
                     alt=""
                   />
                 </th> */}
-                <td class="px-6 py-2">{item.roomName}</td>
-                <td class="px-6 py-2">{item.floorsAvailable}</td>
-                <td class="px-6 py-2">{item.bedroom}</td>
-                <td class="px-6 py-2">{item.bathroom}</td>
-                <td class="px-6 py-2">{item.price}</td>
-                <td class="px-6 py-2">{item.size}</td>
-                <td class="px-6 py-2">
-                   {item.type}
-                    </td>
-                    <td class="px-6 py-2">{item.location}</td>
-                    <td class="px-6 py-2">{item.createdAt}</td>
-                    <Link to={`/editcommunity/${item._id}`}><td class="px-6 py-2"><SlPencil className='mt-3' /></td></Link>
-                  <td class="px-6 py-2" onClick={() => handleDelete(item._id)}><SlTrash className='text-red-800'/></td>
+                <td className="px-6 py-2">{item.name}</td>
+                <td className="px-6 py-2">{item.status}</td>
+                <td className="px-6 py-2">{item.desc}</td>
+                    <td className="px-6 py-2">{item.createdAt}</td>
+                    <Link to={`/editcommunity/${item._id}`}><td className="px-6 py-2"><SlPencil className='mt-3' /></td></Link>
+                  <td className="px-6 py-2" onClick={() => handleDelete(item._id)}><SlTrash className='text-red-800'/></td>
                 {/* <td class="px-6 py-4">
                 {items.status == "preleasing" ?  ( <p className='bg-green-400 px-1 rounded-3xl text-white'>{item.status}</p>) : ( <p className='bg-red-400 px-1 rounded-3xl text-white'>{item.status}</p>)}
                 </td> */}
