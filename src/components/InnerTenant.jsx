@@ -1,138 +1,152 @@
-
-import {ImCross} from 'react-icons/im'
-import { useContext, useState, useEffect } from 'react'
-import { URL } from '../url'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
-import {useNavigate, useParams } from 'react-router-dom'
-import { UserContext } from '../context/UserContext'
-
-
-
-
+import { useState } from "react";
+import { URL } from "../url";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const InnerTenant = () => {
-     
-  const param=useParams().id
-  const navigate = useNavigate()
-  const {user}=useContext(UserContext)
-    
-  const [email,setEmail]=useState("")
-  const [password,setPassword]=useState("")
-  const [tenant,setTenant]=useState("")
-//   const [status,setStatus]=useState("")
-//   const [file,setFile]=useState(null)
-//   const [cat,setCat]=useState("")
-//   const [cats,setCats]=useState([])
-   const [updated,setUpdated]=useState(false)  
-//   const [isAvailable, setIsAvailable] = useState(false);
+  const navigate = useNavigate();
 
-  
+  const [tenant, setTenant] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [company, setCompany] = useState("");
+  const [photo, setPhoto] = useState(null);
+  const [created, setCreated] = useState(false);
+  const [createDisabled, setCreateDisabled] = useState(false);
 
-  const handleCreate = async(e) => {
-    e.preventDefault()
-    const post = {
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    setCreateDisabled(true);
+    try {
+      let uploadedPhotoUrl = "";
+      if (photo) {
+        uploadedPhotoUrl = await handleFileUpload();
+      }
+      await createTenant(uploadedPhotoUrl);
+      toast.success("Tenant created successfully");
+      navigate("/admin/tenant/view");
+      setTenant("");
+      setEmail("");
+      setPassword("");
+      setPhone("");
+      setCompany("");
+      setPhoto(null);
+      setCreated(true);
+    } catch (err) {
+      console.log(err);
+      toast.error("Failed to create tenant");
+    } finally {
+      setCreateDisabled(false);
+    }
+  };
+
+  const createTenant = async (photoUrl) => {
+    const newTenant = {
       tenant,
       email,
       password,
-     
+      phone,
+      company,
+      photo: photoUrl,
+    };
 
+    try {
+      await axios.post(URL + "/api/tenants/register", newTenant);
+      setCreated(true);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to create tenant");
     }
+  };
+ const handleFileUpload = async () => {
+   const data = new FormData();
+   const filename = Date.now() + photo.name;
+   data.append("img", filename);
+   data.append("file", photo);
 
-  
-
-    try{
-    //   const accessToken = localStorage.getItem("access_token");
-
-    //   if(!accessToken){
-    //         // Handle the case where the access token is not available
-    //     console.error('Access token not fund')
-    //   }
-
-    setUpdated(false)
-      const res = await axios.post(URL+"/api/tenants/register",post)
- 
-      
-        setUpdated(true)
-         setTenant("")
-         setEmail("")
-         setPassword("")
-         console.log(res.data)
-  
-    }
-    catch(err){
-      console.log(err)
-      setUpdated(false)
-    }
-
-  }
-  
-
- 
+   try {
+     const url = await axios.post(URL + "/api/upload", data);
+     return url.data[0];
+   } catch (err) {
+     console.log(err);
+     toast.error("Failed to upload image");
+   }
+ };
 
   return (
-    <div className='w-full bg-gray-200'>
-        <div className='flex justify-evenly border h-12 bg-white'>
+    <div className="w-full bg-gray-200">
+      <div className="flex justify-evenly border h-12 bg-white">
         <p>Administration</p>
         <p>Administration</p>
+      </div>
 
-        </div>
-
-        <div className='px-6 md:px-[200px] mt-8'>
-        <h1 className='font-bold md:text-2xl text-xl text-green-800 text-center'>Create a tenant</h1>
-        <Link to="/tenantscreated"><p className='text-green-600'>See Tenants Created</p></Link>
-        <form className='w-full flex flex-col space-y-4 md:space-y-8 mt-4'>
-        <input onChange={(e)=>setTenant(e.target.value)} value={tenant} type="text" placeholder='Enter Tenant name' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
-        <input onChange={(e)=>setEmail(e.target.value)} value={email} type="text" placeholder='Enter Tenant Email' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
-     
-          <input onChange={(e)=>setPassword(e.target.value)} value={password} type="text" placeholder='Enter Tenant Password' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
-         
-          {/* <input onChange={(e)=>setStatus(e.target.value)} value={status} type="text" placeholder='Enter status e.g new pre-leasing' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
-
-        <input onChange={(e)=>setFile(e.target.files[0])} type="file" multiple  className='px-4'/> */}
-           {/*  <div className='flex flex-col'>
-            <div className='flex items-center space-x-4 md:space-x-8'>
-                <input value={cat} onChange={(e)=>setCat(e.target.value)} className='px-4 py-2 outline-none border border-gray-400 rounded-lg' placeholder='Please list your skills' type="text"/>
-                <div onClick={addCategory} className='bg-black text-white px-4 py-2 font-semibold cursor-pointer'>Add</div>
-            </div> */}
-
-            {/* categories */}
-            {/* <div className='flex px-4 mt-3'>
-            {cats?.map((c,i)=>(
-                <div key={i} className='flex justify-center items-center space-x-2 mr-4 bg-gray-200 px-2 py-1 rounded-md'>
-                <p>{c}</p>
-                <p onClick={()=>deleteCategory(i)} className='text-white bg-black rounded-full cursor-pointer p-1 text-sm'><ImCross/></p>
-            </div>
-            ))}
-            
-            
-            </div>
-          </div> */}
-
-              {/* <div className='flex space-x-3'>
-          <input checked={isAvailable} type="checkbox" value={isAvailable} onChange={() => setIsAvailable(isAvailable => !isAvailable)}
-           className='border border-green-600 rounded-full '/>
-          <p>Available for a Gig</p>
-          </div> */}
-
-{/* 
-          <p>Write a description about the estate</p>
-          <textarea onChange={(e)=>setDescription(e.target.value)} value={description} rows={15} cols={30} className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg' placeholder='Give a description of the apartment'/> */}
-          {/* <button onClick={handleCreate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Create</button> */}
-          <button onClick={handleCreate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Create Tenant</button>
-          {updated && <h3 className="text-green-500 text-sm text-center mt-4">Tenant created successfully!</h3>}
-          {/* handleUserUpdate */}
+      <div className="px-6 md:px-[200px] mt-8">
+        <h1 className="font-bold md:text-2xl text-xl text-green-800 text-center">
+          Create a Tenant
+        </h1>
+        <Link to="/admin/tenant/view">
+          <p className="text-green-600">See Tenants Created</p>
+        </Link>
+        <form className="w-full flex flex-col space-y-4 md:space-y-8 mt-4">
+          <input
+            onChange={(e) => setTenant(e.target.value)}
+            value={tenant}
+            type="text"
+            placeholder="Enter Tenant Name"
+            className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+          />
+          <input
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            type="text"
+            placeholder="Enter Tenant Email"
+            className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+          />
+          <input
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            type="password"
+            placeholder="Enter Tenant Password"
+            className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+          />
+          <input
+            onChange={(e) => setPhone(e.target.value)}
+            value={phone}
+            type="text"
+            placeholder="Enter Tenant Phone"
+            className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+          />
+          <input
+            onChange={(e) => setCompany(e.target.value)}
+            value={company}
+            type="text"
+            placeholder="Enter Tenant Company"
+            className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+          />
+          <input
+            onChange={(e) => setPhoto(e.target.files[0])}
+            type="file"
+            className="px-4"
+          />
+          <button
+            onClick={handleCreate}
+            className="bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg"
+            disabled={createDisabled}
+          >
+            {createDisabled ? "Creating..." : "Create Tenant"}
+          </button>
+          {created && (
+            <h3 className="text-green-500 text-sm text-center mt-4">
+              Tenant created successfully!
+            </h3>
+          )}
         </form>
-
-        </div>
-    
-       
-      
-       
-        
-        
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default InnerTenant
+export default InnerTenant;

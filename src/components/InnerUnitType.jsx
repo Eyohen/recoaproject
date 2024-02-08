@@ -222,7 +222,7 @@ const bedrooms = [
         },
       })
       console.log(res);
-      navigate('/unittypescreated');
+      navigate('/admin/unit/view');
     } catch (err) {
       console.error(err);
     }
@@ -238,7 +238,7 @@ const bedrooms = [
 
         <div className='px-6 md:px-[200px] mt-8'>
         <h1 className='font-bold md:text-2xl text-xl text-green-800 text-center'>Add a Unit Type</h1>
-        <Link to="/unittypescreated"><p className='text-green-600'>See Unit Types Created</p></Link>
+        <Link to="/admin/unit/view"><p className='text-green-600'>See Unit Types Created</p></Link>
         <form className='w-full flex flex-col space-y-4 md:space-y-8 mt-4'>
         <select value={selectedName} onChange={handleName} className=''>
             <option value="">Select Name:</option>

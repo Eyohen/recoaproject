@@ -186,7 +186,7 @@ const UnitTypesCreated= () => {
                 {item.status == "New pre-leasing" ?  ( <p className='bg-green-400 text-center rounded-3xl text-white'>{item.status}</p>) : ( <p className='bg-red-400  rounded-full text-center text-white'>{item.status}</p>)}
                 </td>
                 <td class="px-6 py-2">{new Date(item.createdAt).toDateString()}</td>
-                <Link to={`/editunittype/${item._id}`}><td class="px-6 py-2"><SlPencil className='mt-3' /></td></Link>
+                <Link to={`/admin/unittype/edit/${item._id}`}><td class="px-6 py-2"><SlPencil className='mt-3' /></td></Link>
                 <td class="px-6 py-2" onClick={() => handleDelete(item._id)}><SlTrash className='text-red-800'/></td>
                 {/* <td class="px-6 py-4">{user.BetTribeLog.betwinnerId}</td>
                 <td class="px-6 py-4">{user.BetTribeLog.BetTribe.name}</td> */}

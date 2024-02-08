@@ -157,7 +157,7 @@ const CommunitiesCreated = () => {
                 <td className="px-6 py-2">{item.status}</td>
                 <td className="px-6 py-2">{item.desc}</td>
                     <td className="px-6 py-2">{item.createdAt}</td>
-                    <Link to={`/editcommunity/${item._id}`}><td className="px-6 py-2"><SlPencil className='mt-3' /></td></Link>
+                    <Link to={`/admin/community/edit/${item._id}`}><td className="px-6 py-2"><SlPencil className='mt-3' /></td></Link>
                   <td className="px-6 py-2" onClick={() => handleDelete(item._id)}><SlTrash className='text-red-800'/></td>
                 {/* <td class="px-6 py-4">
                 {items.status == "preleasing" ?  ( <p className='bg-green-400 px-1 rounded-3xl text-white'>{item.status}</p>) : ( <p className='bg-red-400 px-1 rounded-3xl text-white'>{item.status}</p>)}

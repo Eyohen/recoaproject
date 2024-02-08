@@ -26,7 +26,7 @@ const Login = () => {
         localStorage.setItem("access_token", access_token)
         localStorage.setItem("currentUser", JSON.stringify(res.data))
         setUser(res.data)
-        navigate("/adminpage")
+        navigate("/admin/dashboard")
       }
     }
     catch(err){

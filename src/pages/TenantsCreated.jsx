@@ -129,9 +129,9 @@ const TenantsCreated = () => {
             <th scope="col" class="px-6 py-3 font-light">
               date
             </th>
-            <th scope="col" class="px-6 py-3 font-light">
+            {/* <th scope="col" class="px-6 py-3 font-light">
               edit
-            </th>
+            </th> */}
             <th scope="col" class="px-6 py-3 font-light">
               delete
             </th>
@@ -181,7 +181,7 @@ const TenantsCreated = () => {
                     </td> */}
             
                 <td class="px-6 py-2">{item.createdAt}</td>
-                <Link to={`/editestate/${item._id}`}><td class="px-6 py-2"><SlPencil className='mt-3' /></td></Link>
+                {/* <Link to={`/editestate/${item._id}`}><td class="px-6 py-2"><SlPencil className='mt-3' /></td></Link> */}
                 <td class="px-6 py-2" onClick={() => handleDelete(item._id)}><SlTrash className='text-red-800'/></td>
                 {/* <td class="px-6 py-4">{user.BetTribeLog.betwinnerId}</td>
                 <td class="px-6 py-4">{user.BetTribeLog.BetTribe.name}</td> */}
