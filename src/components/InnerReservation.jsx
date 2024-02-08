@@ -23,6 +23,7 @@ const InnerReservation = () => {
   const fetchUnitTypes = async () => {
     try {
       const res = await axios.get(URL + "/api/unitTypes");
+            console.log(res.data);
       setUnitTypes(res.data);
     } catch (err) {
       console.log(err);
@@ -73,12 +74,13 @@ const InnerReservation = () => {
         console.error("Access token not found");
         return;
       }
-      await axios.post(URL + "/api/reservations", reservationData, {
+      await axios.post(URL + "/api/reservations/create", reservationData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
       toast.success("Reservation created successfully");
+            navigate("/admin/reservation/view");
     } catch (error) {
       console.error(error);
       toast.error("Failed to create reservation");
@@ -99,8 +101,8 @@ const InnerReservation = () => {
           >
             <option value="">Select Unit Type</option>
             {unitTypes.map((type) => (
-              <option key={type._id} value={type.name}>
-                {type.name}
+              <option key={type._id} value={type._id}>
+                {type.name} - {type.numAvailable} available
               </option>
             ))}
           </select>
