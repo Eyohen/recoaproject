@@ -2,14 +2,12 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="border h-screen w-[16%]">
-      <Link to="/admin/dashboard">
-        <p className="text-green-800 text-2xl font-bold text-center py-2">
-          Admin
-        </p>
-      </Link>
+    <div className="border h-screen w-[16%] flex flex-col justify-center items-center">
 
-      <div className="text-center mt-6 space-y-6">
+      <Link to="/admin/dashboard">
+        <p className="text-green-800 text-2xl font-bold py-2">Admin</p>
+      </Link>
+      <div className="text-left mt-6 space-y-6">
         <Link to={"/admin/dashboard"}>
           <p>Dashboard</p>
         </Link>
