@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { URL } from "../url";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const InnerReservation = () => {
@@ -47,12 +47,12 @@ const InnerReservation = () => {
     setCreateDisabled(true); // Disable create button
     try {
       await createReservation();
-      toast.success("Reservation created successfully");
       navigate("/admin/reservation/view");
       setCreated(true);
       setSelectedUnitType("");
       setSelectedTenant("");
       setCount("");
+      toast.success("Reservation created successfully");
     } catch (err) {
       console.log(err);
       toast.error("Failed to create reservation");
@@ -93,6 +93,9 @@ const InnerReservation = () => {
         <h1 className="font-bold md:text-2xl text-xl text-green-800 text-center">
           Create Reservation
         </h1>
+        <Link to="/admin/reservation/view">
+          <p className="text-green-600">See Reservations</p>
+        </Link>
         <form className="w-full flex flex-col space-y-4 md:space-y-8 mt-4">
           <select
             value={selectedUnitType}
