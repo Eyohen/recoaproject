@@ -116,7 +116,9 @@ const ReservationsCreated = () => {
                 >
                   <td className="px-6 py-2">{reservation._id.slice(0, 6)}</td>
                   <td className="px-6 py-2">{reservation.unitType.name}</td>
-                  <td className="px-6 py-2">{reservation.tenant.tenant}</td>
+                  <td className="px-6 py-2">
+                    {reservation.tenant ? reservation.tenant.tenant : null}
+                  </td>
                   <td className="px-6 py-2">{reservation.count}</td>
                   <td className="px-6 py-2">
                     <Link to={`/admin/reservation/edit/${reservation._id}`}>
