@@ -15,25 +15,36 @@ const EditCommunity = () => {
   const [imageUrl, setImageUrl] = useState(""); // State to hold the image URL
   const [loading, setLoading] = useState(true); // State for loading screen
   const [updateDisabled, setUpdateDisabled] = useState(false); // State to disable update button
+  const [selectedSubMarket, setSelectedSubMarket] = useState([]);
+    const [submarket, setSubMarket] = useState([]);
 
-    const statuses = [
-      {
-        _id: 12,
-        status: "Now pre-leasing",
-      },
-      {
-        _id: 13,
-        status: "Join waitlisting",
-      },
-      {
-        _id: 14,
-        status: "Coming Soon",
-      },
-      {
-        _id: 15,
-        status: "Opening in",
-      },
-    ];
+
+  const statuses = [
+    {
+      _id: 12,
+      status: "Now pre-leasing",
+    },
+    {
+      _id: 13,
+      status: "Join waitlisting",
+    },
+    {
+      _id: 14,
+      status: "Coming Soon",
+    },
+    {
+      _id: 15,
+      status: "Opening in",
+    },
+  ];
+  const fetchSubMarket = async () => {
+    try {
+      const res = await axios.get(URL + "/api/submarkets/");
+      setSubMarket(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const fetchCommunity = async () => {
     try {
@@ -47,7 +58,7 @@ const EditCommunity = () => {
       setLoading(false); // Hide loading screen after data is fetched
     } catch (err) {
       console.log(err);
-      toast.error('failed to fetch community');
+      toast.error("failed to fetch community");
     }
   };
 
@@ -64,19 +75,19 @@ const EditCommunity = () => {
         // If no file, update the submarket directly
         await updateSubmarket(imageUrl);
       }
-        toast.success("Community updated successfully");
+      toast.success("Community updated successfully");
       navigate(-1);
     } catch (err) {
       console.log(err);
-        toast.error('failed to update community');
+      toast.error("failed to update community");
     } finally {
       setUpdateDisabled(false); // Enable update button
     }
   };
 
-    const handleStatus = (e) => {
-      setStatus(e.target.value);
-    };
+  const handleStatus = (e) => {
+    setStatus(e.target.value);
+  };
 
   const updateSubmarket = async (imageUrl) => {
     const Community = {
@@ -102,7 +113,7 @@ const EditCommunity = () => {
       //   navigate(-1);
     } catch (err) {
       console.log(err);
-      toast.error('failed to update community');
+      toast.error("failed to update community");
     }
   };
 
@@ -118,12 +129,13 @@ const EditCommunity = () => {
       return url.data[0]; // Return the uploaded image URL
     } catch (err) {
       console.log(err);
-      toast.error('failed to upload image');    
+      toast.error("failed to upload image");
     }
   };
 
   useEffect(() => {
     fetchCommunity();
+    fetchSubMarket();
   }, []); // Empty dependency array to execute only once when component mounts
 
   return (
@@ -160,6 +172,18 @@ const EditCommunity = () => {
               placeholder="Enter Community Name"
               className="px-4 py-2 border outline-none text-gray-400"
             />
+            <select
+              value={selectedSubMarket}
+              onChange={(e) => setSelectedSubMarket(e.target.value)}
+              className=""
+            >
+              <option value="">Select Submarket:</option>
+              {submarket.map((item) => (
+                <option key={item._id} value={item._id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
 
             <select value={status} onChange={handleStatus} className="">
               <option value="">Select Status:</option>

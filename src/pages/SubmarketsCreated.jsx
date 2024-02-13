@@ -18,7 +18,7 @@ const SubmarketsCreated = () => {
       console.error("Access token not found");
     }
 
-    const res = await axios.get(URL + "/api/submarkets", {
+    const res = await axios.get(URL + "/api/submarkets/", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

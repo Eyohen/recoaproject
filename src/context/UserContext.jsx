@@ -1,55 +1,61 @@
 /* eslint-disable react/prop-types */
-
-
+// UserContext.jsx
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { URL } from "../url";
-import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
+export const UserContext = createContext({});
 
-export const UserContext=createContext({})
+export function UserContextProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Added loading state
 
+  useEffect(() => {
+    getUser();
+  }, []);
 
-export function UserContextProvider({children}){
-    const [user,setUser] = useState(null)
+  const getUser = async () => {
+    const storedUser = localStorage.getItem("currentUser");
+    const accessToken = localStorage.getItem("access_token");
 
-    useEffect(()=>{
-      getUser()
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setLoading(false); // Set loading to false after user is set
+      return;
+    }
 
-    },[])
-
-    const getUser = async()=>{
-    //   try{
-    //     const res=await axios.get(URL+"/api/auth/refetch",{withCredentials:true})
-    //     // console.log(res.data)
-    //     setUser(res.data)
-
-    //   }
-    //   catch(err){
-    //     console.log(err)
-    //   }
+    if (!accessToken) {
+      setLoading(false); // Ensure to set loading to false if no user or token is found
+      toast.error("Oops! You are not logged in. Please login to continue.");
+      return;
+    }
 
     try {
-      const accessToken = localStorage.getItem("access_token");
-
-      if(!accessToken){
-            // Handle the case where the access token is not available
-        console.error('Access token not found')
-      }
-
-      const res = await axios.get(URL+"/api/auth/refetch" , {
+      const res = await axios.get(`${URL}/api/auth/refetch`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-        }
-      })
-      console.log("refetch",res.data)
-      setUser(res.data)
-    } catch(err){
-      console.log(err)
+        },
+      });
+
+      localStorage.setItem("currentUser", JSON.stringify(res.data));
+      setUser(res.data);
+    } catch (err) {
+      console.error(err);
+      localStorage.removeItem("access_token");
+      if (err.response && err.response.status === 401) {
+        toast.error("Session expired. Please login again.");
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
+    } finally {
+      setLoading(false); // Ensure loading is set to false after all operations
     }
-    }
-    
-    return (<UserContext.Provider value={{user,setUser}}>
+  };
+
+  return (
+    <UserContext.Provider value={{ user, setUser, loading }}>
       {children}
-    </UserContext.Provider>)
+    </UserContext.Provider>
+  );
 }

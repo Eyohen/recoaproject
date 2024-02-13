@@ -49,11 +49,11 @@ const App = () => {
         <Route path="/recoa/:id" element={<RecoaSquare />} />
 
         {/* CLIENT PAGES (Protected Routes) */}
-        <Route path="/communities" element={<ProtectedRoute><Communities /></ProtectedRoute>} />
-        <Route path="/insidecommunity/:id" element={<ProtectedRoute><InsideCommunity /></ProtectedRoute>} />
-        <Route path="/reserve" element={<ProtectedRoute><Reserve /></ProtectedRoute>} />
-        <Route exact path="/corperatepage" element={<ProtectedRoute><CorperatePage /></ProtectedRoute>} />
-        <Route exact path="/corperatelogin/:id" element={<ProtectedRoute><CorperateLogin /></ProtectedRoute>} />
+        <Route path="/communities" element={<Communities />} />
+        <Route path="/insidecommunity/:id" element={<InsideCommunity />} />
+        <Route path="/reserve" element={<Reserve />} />
+        <Route exact path="/corperatepage" element={<CorperatePage />} />
+        <Route exact path="/corperatelogin/:id" element={<CorperateLogin />} />
 
         {/* ADMIN PAGES (Admin Protected Routes) */}
         <Route path="/admin/login" element={<Login />} /> {/* Admin login might be public */}
