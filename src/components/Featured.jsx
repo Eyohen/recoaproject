@@ -14,7 +14,6 @@ const Featured = () => {
     setIsLoading(true);
     try {
       const res = await axios.get(URL + "/api/communities/");
-      console.log("mt submarkt", res.data);
       setSubMarkets(res.data);
       if (res.data.length === 0) {
         setNoResults(true);

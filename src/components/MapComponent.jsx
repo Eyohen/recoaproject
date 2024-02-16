@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -11,11 +11,16 @@ const MapComponent = ({ location }) => {
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
       location
     )}`;
+    console.log(url);
     const response = await fetch(url);
     const data = await response.json();
+    console.log(data);
     if (data && data.length > 0) {
       const { lat, lon } = data[0];
       setPosition([lat, lon]);
+    } else {
+        console.log("No coordinates found for location: ", location);
+        setPosition(["6.4550575", "3.3941795"]);
     }
   };
 

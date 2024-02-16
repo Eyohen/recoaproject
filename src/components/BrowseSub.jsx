@@ -44,7 +44,7 @@ const BrowseSub = () => {
             <p className="text-center">No results found.</p>
           ) : (
             subMarkets.map((submarket) => (
-              <Link to={`/recoa/${submarket._id}`} key={submarket._id}>
+              <Link to={`/findcommunity/${submarket.name}/${submarket.location}`} key={submarket._id}>
                 <SubCards submarket={submarket} />
               </Link>
             ))

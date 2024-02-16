@@ -1,7 +1,7 @@
+/* eslint-disable react/prop-types */
 import LOGO from "../assets/logo.png";
 
 const SubCards = ({ submarket }) => {
-  console.log(submarket);
   return (
     <div className="relative mt-6">
       {submarket.photo ? (

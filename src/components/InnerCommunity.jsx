@@ -7,13 +7,14 @@ import { toast } from "react-toastify";
 const InnerCommunity = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [status, setStatus] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
   const [selectedSubMarket, setSelectedSubMarket] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("");
   const [submarket, setSubMarket] = useState([]);
-  const [updated, setUpdated] = useState(false);
+  const [created, setCreated] = useState(false);
+  const [createDisabled, setCreateDisabled] = useState(false); // State to disable create button
 
   const fetchSubMarket = async () => {
     try {
@@ -30,55 +31,70 @@ const InnerCommunity = () => {
 
   const handleCreate = async (e) => {
     e.preventDefault();
+    setCreateDisabled(true); // Disable create button
+    try {
+      let uploadedImageUrl = imageUrl;
+      if (file) {
+        uploadedImageUrl = await handleFileUpload();
+      }
+      await createCommunity(uploadedImageUrl);
+      toast.success("community created successfully");
+
+      navigate("/admin/community/view");
+      setName("");
+      setDesc("");
+      setSelectedStatus("");
+      setSubMarket("");
+      setFile(null);
+      setCreated(true);
+    } catch (err) {
+      console.log(err);
+      toast.error("Failed to create community");
+    } finally {
+      setCreateDisabled(false); // Enable create button
+    }
+  };
+
+  const createCommunity = async (imageUrl) => {
     const community = {
       name,
       desc,
+      location,
       status: selectedStatus,
-      submarket: selectedSubMarket,
+      photo: imageUrl,
     };
-
-    if (file) {
-      const data = new FormData();
-      const filename = Date.now() + file.name;
-      data.append("img", filename);
-      data.append("file", file);
-
-      try {
-        const accessToken = localStorage.getItem("access_token");
-
-        if (!accessToken) {
-          console.error("Access token not found");
-        }
-
-        const imgUpload = await axios.post(URL + "/api/upload", data, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        community.photo = imgUpload.data[0];
-      } catch (err) {
-        console.log(err.message);
-      }
-    }
 
     try {
       const accessToken = localStorage.getItem("access_token");
-
       if (!accessToken) {
         console.error("Access token not found");
+        return;
       }
-
-      const res = await axios.post(URL + "/api/communities/create", community, {
+      await axios.post(URL + "/api/communities/create", community, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      toast.success("community created successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to create community");
+    }
+  };
 
-      console.log(res);
-      navigate("/admin/community/view");
+  const handleFileUpload = async () => {
+    const data = new FormData();
+    const filename = Date.now() + file.name;
+    data.append("img", filename);
+    data.append("file", file);
+
+    try {
+      const url = await axios.post(URL + "/api/upload", data);
+      setImageUrl(url.data[0]);
+      return url.data[0];
     } catch (err) {
-      console.error(err);
+      console.log(err);
+      toast.error("Failed to upload image");
     }
   };
 
@@ -153,9 +169,11 @@ const InnerCommunity = () => {
             Create Community
           </button>
 
-          {updated && (
+          {created && (
             <h3 className="text-green-500 text-sm text-center mt-4">
-              Community created successfully!
+              {createDisabled
+                ? "Creating..."
+                : "Community created successfully!"}
             </h3>
           )}
         </form>

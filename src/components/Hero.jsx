@@ -13,6 +13,7 @@ const Hero = () => {
 
   const handleSelect = (event) => {
     setSelectedSubMarket(event.target.value);
+    handleItemSearch(event.target.value)
   };
 
   //getting user details
@@ -21,8 +22,6 @@ const Hero = () => {
       //  const res=await axios.get(URL+"/api/users/"+user._id)
       const res = await axios.get(URL + "/api/submarkets/" + search);
       setSubMarket(res.data);
-
-      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -32,9 +31,17 @@ const Hero = () => {
     fetchSubMarket();
   }, [search]);
 
-  const handleItemSearch = (item) => {
-    navigate(`/findcommunity/${item}`);
-  };
+const handleItemSearch = (name) => {
+  // Assuming the location is part of the selectedSubMarket state or needs to be determined here
+  // Find the selected market to get its location
+  const selectedMarket = subMarket.find((market) => market.name === name);
+  if (selectedMarket && selectedMarket.location) {
+    navigate(`/findcommunity/${name}/${selectedMarket.location}`);
+  } else {
+    console.log("Location for selected market not found");
+    // Handle cases where the market's location isn't found
+  }
+};
 
   return (
     <div
@@ -54,7 +61,7 @@ const Hero = () => {
         <div className="flex gap-x-2 items-center">
           <select
             value={selectedSubMarket}
-            onChange={(e) => handleItemSearch(e.target.value)}
+            onChange={(e) => handleSelect(e)}
             className="sm:w-[500px] md:w-[530px] h-9 rounded-lg mt-3 text-green-600"
           >
             <option value="">Select SubMarket:</option>
