@@ -1,306 +1,267 @@
-
-import {ImCross} from 'react-icons/im'
-import { useContext, useState, useEffect } from 'react'
-import { URL } from '../url'
-
-import axios from 'axios'
-import {Link, useNavigate, useParams } from 'react-router-dom'
-import { UserContext } from '../context/UserContext'
-
-
-
-
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { URL } from "../url";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const InnerUnityType = () => {
-     
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [bedroom, setBedroom] = useState("");
+  const [bathroom, setBathroom] = useState("");
+  const [unitNo, setUnitNo] = useState("");
+  const [size, setSize] = useState("");
+  const [numAvailable, setNumAvailable] = useState("");
+  const [desc, setDesc] = useState("");
+  const [community, setCommunity] = useState([]);
+  const [selectedCommunity, setSelectedCommunity] = useState("");
+  const [file, setFile] = useState(null);
+  const [created, setCreated] = useState(false);
+  const [createDisabled, setCreateDisabled] = useState(false); // State to disable create button
 
-  const navigate = useNavigate()
-  const [name,setName]=useState("")
-  const [selectedName, setSelectedName] = useState([])
-  const [price, setPrice] = useState("")
-  const [bedroom,setBedroom] = useState("")
-  const [selectedBedroom, setSelectedBedroom] = useState([])
-  const [bathroom,setBathroom] = useState("")
-  const [selectedBathroom, setSelectedBathroom] = useState([])
-  const [unitNo, setUnitNo] = useState("")
-  const [size, setSize] = useState("")
- 
-
-  const [community,setCommunity] = useState([])
-  const [selectedCommunity, setSelectedCommunity] = useState([])
-  const [numAvailable, setNumAvailable] = useState("")
-  
-
-
-  const [status, setStatus]=useState("")
-  const [desc,setDesc]=useState("")
-
-  const [file,setFile]=useState(null)
- 
-   const [updated,setUpdated]=useState(false)  
-  //  const [selectedSubMarket, setSelectedSubMarket] = useState([])
-  // const [isAvailable, setIsAvailable] = useState(false);
-  // const [selectedStatus, setSelectedStatus] = useState('');
-  //  const [submarket, setSubMarket] = useState([])
-
-
-   const names = [
-{
-    _id: 1,
-    name: "S-1",
-},
-{
-    _id: 2,
-    name: "A-1",
-},
-{
-    _id: 3,
-    name: "A-2",
-},
-{
-  _id: 4,
-  name: "B-1",
-},
-{
-  _id: 5,
-  name: "B-2",
-},
-{
-  _id: 6,
-  name: "C-1",
-}
-]
-
-const bedrooms = [
-  {
-    _id: 0,
-    bedroom: "0",
-},
-  {
-      _id: 1,
-      bedroom: "1",
-  },
-  {
-      _id: 2,
-      bedroom: "2",
- 
-  },
-  {
-      _id: 3,
-      bedroom: "3",
-  },
-  {
-    _id: 4,
-    bedroom: "4",
-  },
-  {
-    _id: 5,
-    bedroom: "5",
-  },
-  ]
-
-  const bathrooms = [
-    {
-        _id: 1,
-        bathroom:"1",
-    },
-    {
-        _id: 2,
-        bathroom:"2",
-   
-    },
-    {
-        _id: 3,
-        bathroom:"3",
-    },
-    {
-      _id: 4,
-      bathroom:"4",
-    },
-    ]
-
-
-  const handleName = (e) => {
-    setSelectedName(e.target.value);
-  };
-
-  const handleBedroom = (e) => {
-    setSelectedBedroom(e.target.value);
-  };
-
-  const handleBathroom = (e) => {
-    setSelectedBathroom(e.target.value);
-  };
-
-
-
-
-  const handleCommunity = (event) => {
-    setSelectedCommunity(event.target.value)
-  }
-
-  
-
-
-  //getting user details
-  const fetchCommunity = async ()=>{
-    try{
-      //  const res=await axios.get(URL+"/api/users/"+user._id)
-      const res = await axios.get(URL+"/api/communities/")
-       setCommunity(res.data)
-     
-       console.log(res.data)
-     
-      
+const fetchCommunity = async () => {
+  try {
+    const res = await axios.get(URL + "/api/communities/");
+    console.log("data", res.data);
+    // Check if res.data is an array before setting it to state
+    if (Array.isArray(res.data)) {
+      setCommunity(res.data);
+    } else {
+      // Handle case where res.data is not an array
+      console.error("Expected an array for community, received:", res.data);
+      setCommunity([]); // Set to empty array or handle appropriately
     }
-    catch(err){
-       console.log(err)
-    }
+  } catch (err) {
+    console.log(err);
+    setCommunity([]); // Ensure community is reset in case of error
   }
+};
 
 
-  useEffect(()=>{
-    fetchCommunity()
-  },[])
-  
- 
+  useEffect(() => {
+    fetchCommunity();
+  }, []);
 
   const handleCreate = async (e) => {
     e.preventDefault();
+    setCreateDisabled(true); // Disable create button
+    try {
+      let uploadedImageUrl = "";
+      if (file) {
+        uploadedImageUrl = await handleFileUpload();
+      }
+      await createUnitType(uploadedImageUrl);
+      toast.success("Unit Type created successfully");
+
+      navigate("/admin/unit/view");
+      // Reset form fields
+      setName("");
+      setPrice("");
+      setBedroom("");
+      setBathroom("");
+      setUnitNo("");
+      setSize("");
+      setNumAvailable("");
+      setCommunity("");
+      setFile(null);
+      setDesc("");
+      setCreated(true);
+    } catch (err) {
+      console.log(err);
+      toast.error("Failed to create Unit Type");
+    } finally {
+      setCreateDisabled(false); // Enable create button
+    }
+  };
+
+  const createUnitType = async (imageUrl) => {
     const unitType = {
-      name: selectedName,
+      name,
       price,
-      bedroom : selectedBedroom,
-      size,
-      bathroom : selectedBathroom,
+      bedroom,
+      bathroom,
       unitNo,
+      size,
+      numAvailable,
       desc,
       community: selectedCommunity,
-      numAvailable,
-      
+      photo: imageUrl,
     };
-    if (file) {
-        const data = new FormData()
-        const filename = Date.now()+file.name
-        data.append("img",filename)
-        data.append("file", file);
-        unitType.photo = filename;
 
-        try{
-          const accessToken = localStorage.getItem("access_token");
-
-          if(!accessToken){
-                // Handle the case where the access token is not available
-            console.error('Access token not found')
-          }
-
-          const imgUpload = await axios.post(URL+"/api/upload",data, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            }
-          })
-          // console.log(imgUpload.data)
-        }
-        catch(err){
-          console.log(err.message)
-        }
+    try {
+      const accessToken = localStorage.getItem("access_token");
+      if (!accessToken) {
+        console.error("Access token not found");
+        return;
       }
-        
-  
-      try {
-
-        const accessToken = localStorage.getItem("access_token")
-
-        if(!accessToken){
-          // Handle the case where the access token is not available
-      console.error('Access token not found')
-    }
-  
-      const res = await axios.post(URL+"/api/unittypes/create", unitType, {
+      await axios.post(URL + "/api/unittypes/create", unitType, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      })
-      console.log(res);
-      navigate('/admin/unit/view');
+      });
+      toast.success("Unit Type created successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to create Unit Type");
+    }
+  };
+
+  const handleFileUpload = async () => {
+    const data = new FormData();
+    data.append("file", file);
+
+    try {
+      const uploadRes = await axios.post(URL + "/api/upload", data);
+      return uploadRes.data.filePath; // Assuming the API returns the file path of the uploaded image
     } catch (err) {
-      console.error(err);
+      console.log(err);
+      toast.error("Failed to upload image");
     }
   };
 
   return (
-    <div className='w-full bg-gray-200'>
-        <div className='flex justify-evenly border h-12 bg-white'>
+    <div className="w-full bg-gray-200">
+      <div className="flex justify-evenly border h-12 bg-white">
         <p>Administration</p>
         <p>Administration</p>
+      </div>
 
-        </div>
-
-        <div className='px-6 md:px-[200px] mt-8'>
-        <h1 className='font-bold md:text-2xl text-xl text-green-800 text-center'>Add a Unit Type</h1>
-        <Link to="/admin/unit/view"><p className='text-green-600'>See Unit Types Created</p></Link>
-        <form className='w-full flex flex-col space-y-4 md:space-y-8 mt-4'>
-        <select value={selectedName} onChange={handleName} className=''>
+      <div className="px-6 md:px-[200px] mt-8">
+        <h1 className="font-bold md:text-2xl text-xl text-green-800 text-center">
+          Add a Unit Type
+        </h1>
+        <Link to="/admin/unit/view">
+          <p className="text-green-600">See Unit Types Created</p>
+        </Link>
+        <form className="w-full flex flex-col space-y-4 md:space-y-8 mt-4">
+          {/* Name Selection */}
+          <select
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="px-4 py-2 outline-none border border-gray-400 rounded-lg"
+          >
             <option value="">Select Name:</option>
-            {names.map(item => (
-              <option key={item._id} value={item.name}>{item.name}</option>
-            ) )}
+            <option value="S-1">S-1</option>
+            <option value="A-1">A-1</option>
+            <option value="A-2">A-2</option>
+            <option value="B-1">B-1</option>
+            <option value="B-2">B-2</option>
+            <option value="C-1">C-1</option>
           </select>
 
-        <input onChange={(e)=>setPrice(e.target.value)} value={price} type="text" placeholder='Enter Price' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
-       
-        <select value={selectedBedroom} onChange={handleBedroom} className=''>
-            <option value="">Number of bedrooms:</option>
-            {bedrooms.map(item => (
-              <option key={item._id} value={item.bedroom}>{item.bedroom}</option>
-            ) )}
+          {/* Price Input */}
+          <input
+            onChange={(e) => setPrice(e.target.value)}
+            value={price}
+            type="text"
+            placeholder="Enter Price"
+            className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+          />
+
+          {/* Bedroom Selection */}
+          <select
+            value={bedroom}
+            onChange={(e) => setBedroom(e.target.value)}
+            className="px-4 py-2 outline-none border border-gray-400 rounded-lg"
+          >
+            <option value="">Number of Bedrooms:</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
           </select>
 
-        <input onChange={(e)=>setSize(e.target.value)} value={size} type="text" placeholder='Enter Size' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
-       
+          {/* Bathroom Selection */}
+          <select
+            value={bathroom}
+            onChange={(e) => setBathroom(e.target.value)}
+            className="px-4 py-2 outline-none border border-gray-400 rounded-lg"
+          >
+            <option value="">Number of Bathrooms:</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>          
+            </select>
 
-        <select value={selectedBathroom} onChange={handleBathroom} className=''>
-            <option value="">Number of bathrooms:</option>
-            {bathrooms.map(item => (
-              <option key={item._id} value={item.bathroom}>{item._id}</option>
-            ) )}
-          </select>
+          {/* Unit Number Input */}
+          <input
+            onChange={(e) => setUnitNo(e.target.value)}
+            value={unitNo}
+            type="text"
+            placeholder="Enter Unit Number"
+            className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+          />
 
-        <input onChange={(e)=>setUnitNo(e.target.value)} value={unitNo} type="text" placeholder='Enter Unit Number' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
+          {/* Size Input */}
+          <input
+            onChange={(e) => setSize(e.target.value)}
+            value={size}
+            type="text"
+            placeholder="Enter Size"
+            className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+          />
 
-          <select value={selectedCommunity} onChange={handleCommunity} className=''>
+          {/* Community Selection */}
+          <select
+            value={selectedCommunity}
+            onChange={(e) => setSelectedCommunity(e.target.value)}
+            className="px-4 py-2 outline-none border border-gray-400 rounded-lg"
+          >
             <option value="">Select Community:</option>
-            {community.map(item => (
-              <option key={item._id} value={item._id}>{item.name}</option>
-            ) )}
+            {community.map((item) => (
+              <option key={item._id} value={item._id}>
+                {item.name}
+              </option>
+            ))}
           </select>
 
+          {/* Number Available Input */}
+          <input
+            onChange={(e) => setNumAvailable(e.target.value)}
+            value={numAvailable}
+            type="text"
+            placeholder="Enter Number Available"
+            className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+          />
 
-          <input onChange={(e)=>setNumAvailable(e.target.value)} value={numAvailable} type="text" placeholder='Enter Number Available' className='px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg'/>
-       
-          {/* {selectedEstate ? <div>Selected Estate:  {selectedEstate} </div> : ''} */}
+          {/* Description Input */}
+          <textarea
+            onChange={(e) => setDesc(e.target.value)}
+            value={desc}
+            rows="4"
+            placeholder="Enter Description"
+            className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+          />
 
+          {/* File Upload Input */}
+          <input
+            onChange={(e) => setFile(e.target.files[0])}
+            type="file"
+            className="px-4 py-2"
+          />
 
-          <input onChange={(e)=>setFile(e.target.files[0])} type="file" multiple  className='px-4'/>
-
-          <button onClick={handleCreate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Create Unit Type</button>
-          {updated && <h3 className="text-green-500 text-sm text-center mt-4">Unit Type Created successfully!</h3>}
+          <button
+            onClick={handleCreate}
+            className="bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg"
+          >
+            Create Unit Type
+          </button>
+          {created && (
+            <h3 className="text-green-500 text-sm text-center mt-4">
+              {createDisabled
+                ? "Creating..."
+                : "Unit Type created successfully!"}
+            </h3>
+          )}
           {/* handleUserUpdate */}
         </form>
-
-        </div>
-    
-       
-      
-       
-        
-        
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default InnerUnityType
-
-
-
-
+export default InnerUnityType;
