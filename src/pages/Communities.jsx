@@ -1,166 +1,79 @@
-import React, { useState, useEffect }  from 'react'
-import Navbar from '../components/Navbar'
-import { Link } from 'react-router-dom'
-import { URL } from '../url'
-import axios from 'axios'
-import {useNavigate, useParams } from 'react-router-dom'
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import Navbar from "../components/Navbar";
+import { URL } from "../url";
+import CompanyCard from "../components/CompanyCard";
+
+const fetchAPI = async (endpoint) => {
+  try {
+    const response = await axios.get(`${URL}${endpoint}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return [];
+  }
+};
 
 
+const CommunityCard = ({ community }) => {
+  const [companies, setCompanies] = useState([]);
 
-const CommunityCard = ({community}) => {
-  const [companies, setCompanies] = useState([])
-
-  const fetchTenant = async() => {
-
-    try {
-        const res = await axios.get(URL+"/api/tenants/")
-        setCompanies(res.data)
-
-    } catch (err){
-        console.log(err)
-    }
-
-}
-
-useEffect(() => {
-    fetchTenant()
-}, [])
-
-
-// for checking 
-// const fetchProfile = async () => {
-//   try{
-//     const accessToken = localStorage.getItem("access_token")
-//     const currentUser = JSON.parse(localStorage.getItem("currentUser"))
-//     console.log(typeof currentUser)
-//     if(!currentUser){
-//       return ;
-//     }
-
-
-//     if(!accessToken){
-//       // Handle the case where the access token is not available
-//   console.error('Access token not found')
-// }
-
-//      const res = await axios.get(URL+"/api/tenants/"+currentUser?._id, {
-//       headers: {
-//         Authorization: `Bearer ${accessToken}`,
-//       }
-//     })
-    
-//     console.log(res.data)
-//      setData(res.data)
-//   }
-//   catch(err){
-//      console.log(err)
-//   }
-// }
-
-
-// useEffect(()=>{
-//   fetchProfile()
-
-// },[])
-
-
+  useEffect(() => {
+    (async () => setCompanies(await fetchAPI("/api/tenants/")))();
+  }, []);
 
   return (
-    <div className='border-2 border-[#50C878] p-6'>
-    <p className='text-green-800 text-4xl text-center mt-8'>{community.name}</p>
-    <p className='text-center mt-16 px-16'>{community.desc}</p>
-      <div className='flex flex-col items-center mt-9'>
-        <p className='text-[#50C878] border-2 border-[#50C878] w-[500px] px-4 text-center text-lg'>Preleasing Open to Corporate Tenants</p>
-       
-       <div className='grid md:grid-cols-2 md:gap-x-9 gap-y-4 text-[rgb(80,200,120)] border-2 border-[#50C878] w-[500px] px-4 mt-4 py-4'> 
-       
+    <div className="border-2 border-emerald-400 p-6 rounded-lg shadow mx-auto max-w-4xl">
+      <p className="text-emerald-800 text-3xl text-center mt-8">
+        {community.name}
+      </p>
+      <p className="text-center mt-4 px-4 md:px-16">{community.desc}</p>
+      <div className="mt-9 text-center">
+        <p className="text-emerald-400 border-2 border-emerald-400 px-2 py-2 rounded-md text-lg">
+          Preleasing Open to Corporate Tenants
+        </p>
 
-       {companies.map((company) => (
-
-           <Link to={`/corperatelogin/${company._id}`} >
-            <Company key={company._id} company={company}/>
-           </Link>
-        ))}
-
-
-
-       
-                 </div>
-      
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center items-center mt-4 p-4">
+          {companies.map((company) => (
+            <Link
+              to={`/corporatelogin/${company._id}`}
+              key={company._id}
+              className="hover:underline flex justify-center w-full" // Ensure the link takes full width to center content
+            >
+              <CompanyCard company={company} />
+            </Link>
+          ))}
+        </div>
       </div>
 
-
-      <Link to={'/reserve'}><p className='text-[#50C878] text-lg text-center mt-16 underline'>Join WaitList</p></Link>
-
-
-      </div>
-  )
-}
-
-
-const Company = ({company}) => {
-  return (
-    <p className='bg-[#50C878] text-white rounded-lg text-center text-lg'>{company.tenant}</p>
-  )
-}
-
+      <Link to="/reserve" className="block mt-16">
+        <p className="text-emerald-400 text-lg underline">Join WaitList</p>
+      </Link>
+    </div>
+  );
+};
 
 const Communities = () => {
+  const [communities, setCommunities] = useState([]);
 
-  // const [companies, setCompanies] = useState([])
-  const [communities, setCommunities] = useState([])
-
-  const fetchCommunity = async() => {
-
-    try {
-        const res = await axios.get(URL+"/api/communities/")
-        setCommunities(res.data)
-        console.log("henry",res.data)
-
-    } catch (err){
-        console.log(err)
-    }
-
-}
-
-useEffect(() => {
-    fetchCommunity()
-}, [])
-
-
-  // const fetchTenant = async() => {
-
-  //     try {
-  //         const res = await axios.get(URL+"/api/tenants/")
-  //         setCompanies(res.data)
-
-  //     } catch (err){
-  //         console.log(err)
-  //     }
-
-  // }
-
-  // useEffect(() => {
-  //     fetchTenant()
-  // }, [])
-
+  useEffect(() => {
+    (async () => setCommunities(await fetchAPI("/api/communities/")))();
+  }, []);
 
   return (
     <div>
-        <Navbar/>
-        <div className='flex flex-col gap-y-6'>
+      <Navbar />
+      <div className="flex flex-col gap-y-6 mt-6 mx-auto max-w-4xlw">
         {communities.map((community) => (
-         <Link to={`/insidecommunity/${community._id}`} >
-             <CommunityCard key={community._id} community={community}/>
-             </Link>
-        
+          <Link to={`/insidecommunity/${community._id}`} key={community._id}>
+            <CommunityCard community={community} />
+          </Link>
         ))}
-        </div>
-      
-       
-     
       </div>
-  )
-}
+    </div>
+  );
+};
 
-export default Communities
+export default Communities;
