@@ -100,34 +100,16 @@ const SubmarketsCreated = () => {
               </tr>
             </thead>
             <tbody>
-              {/* {data?.data?.participants
-            .filter((user) => user.BetTribeLog !== null)
-            .map((user, index) => ( */}
+
               {items.map((item) => (
                 <tr
                   className="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200"
                   key={item._id}
                 >
                   <td className="px-6 py-2">{item._id.slice(0, 6)}</td>
-                  {/* <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  
-                  <img
-                    className="w-11 h-11"
-                    src={user?.BetTribeLog?.profileImage}
-                    alt=""
-                  />
-                </th> */}
                   <td className="px-6 py-2">{item.name}</td>
                   <td className="px-6 py-2">{item.location}</td>
 
-                  {/* <td class="px-6 py-2">{user.date}</td>
-                <td class="px-6 py-2">{user.time}</td>
-                <td class="px-6 py-2">
-                   {user.type}
-                    </td> */}
                   <td className="px-6 py-4">
                     {item.status == "New pre-leasing" ? (
                       <p className="bg-green-400 text-center rounded-3xl text-white">
@@ -157,13 +139,6 @@ const SubmarketsCreated = () => {
               ))}
             </tbody>
           </table>
-          {/* {showConfirmation && (
-        <ConfirmationPopup
-          email={selectedParticipantEmail}
-          onCancel={() => setShowConfirmation(false)}
-          onConfirm={confirmParticipant}
-        />
-      )} */}
         </div>
       </div>
     </div>
