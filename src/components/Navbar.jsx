@@ -28,7 +28,7 @@ const Navbar = () => {
           </Link>
           <Link to="/corperatepage">
             <p className="hidden md:block text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5">
-              Corperate tenants
+              Corporate tenants
             </p>
           </Link>
         </div>

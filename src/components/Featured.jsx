@@ -14,6 +14,7 @@ const Featured = () => {
     setIsLoading(true);
     try {
       const res = await axios.get(URL + "/api/communities/");
+      console.log(res.data)
       setSubMarkets(res.data);
       if (res.data.length === 0) {
         setNoResults(true);
@@ -45,7 +46,7 @@ const Featured = () => {
           ) : (
             subMarkets.map((submarket) => (
               <>
-                <Link to={`/recoa/${submarket._id}`}>
+                <Link to={`/recoa/${submarket.submarket._id}`}>
                   <Featuredcard submarket={submarket} key={submarket._id} />
                 </Link>
               </>

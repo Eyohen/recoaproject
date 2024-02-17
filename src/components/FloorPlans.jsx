@@ -48,7 +48,7 @@ const FloorPlans = () => {
       ) : (
         <div className="flex space-x-3 md:flex-row flex-col justify-center items-center overflow-x-scroll">
           {communities.map((community) => (
-            <Floorcard key={community._id} community={community} />
+            <Floorcard key={community._id} community={community.unitTypes} />
           ))}
         </div>
       )}
