@@ -63,8 +63,8 @@ const InnerReservation = () => {
 
   const createReservation = async () => {
     const reservationData = {
-      unitType: selectedUnitType,
-      tenant: selectedTenant,
+      unitTypeId: selectedUnitType,
+      tenantId: selectedTenant,
       count,
     };
 
