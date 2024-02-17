@@ -46,6 +46,7 @@ const App = () => {
         <Route exact path="/dashboard" element={<AdminDashboard />} />
         <Route exact path="/test" element={<Test />} />
         <Route path="/findcommunity/:name/:location" element={<FindCommunity />} />
+        <Route path="/findcommunity" element={<FindCommunity />} />
         <Route path="/recoa/:id" element={<RecoaSquare />} />
 
         {/* CLIENT PAGES (Protected Routes) */}
