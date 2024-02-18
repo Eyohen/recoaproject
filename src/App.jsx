@@ -26,7 +26,7 @@ import CreateTenant from './pages/CreateTenant'
 import TenantsCreated from './pages/TenantsCreated'
 import CorperatePage from './pages/CorperatePage'
 import CorperateLogin from './pages/CorperateLogin'
-import Reserve from './pages/Reserve'
+import Waitlist from './pages/Waitlist'
 import CreateUnitType from './pages/CreateUnitType'
 import CreateReservation from './pages/CreateReservation';
 import UnitTypesCreated from './pages/UnitTypesCreated'
@@ -40,23 +40,23 @@ const App = () => {
       <Routes>
         {/* CLIENT PAGES (Public Routes) */}
         <Route path="/" element={<FrontPage />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/clientlogin" element={<ClientLogin />} />
         <Route path="/about" element={<About />} />
         <Route exact path="/dashboard" element={<AdminDashboard />} />
         <Route exact path="/test" element={<Test />} />
         <Route path="/findcommunity/:name/:location" element={<FindCommunity />} />
         <Route path="/findcommunity" element={<FindCommunity />} />
-        <Route path="/recoa/:id" element={<RecoaSquare />} />
+        <Route path="/community/:id" element={<RecoaSquare />} />
 
         {/* CLIENT PAGES (Protected Routes) */}
         <Route path="/communities" element={<Communities />} />
         <Route path="/insidecommunity/:id" element={<InsideCommunity />} />
-        <Route path="/reserve" element={<Reserve />} />
+        <Route path="/waitlist/:id" element={<Waitlist />} />
         <Route exact path="/corperatepage" element={<CorperatePage />} />
         <Route exact path="/corperatelogin/:id" element={<CorperateLogin />} />
 
         {/* ADMIN PAGES (Admin Protected Routes) */}
+        <Route path="/admin/register" element={<Register />} />
         <Route path="/admin/login" element={<Login />} /> {/* Admin login might be public */}
         <Route path="/admin/dashboard" element={<AdminProtectedRoute><AdminPage /></AdminProtectedRoute>} />
         <Route path="/admin/tenant" element={<AdminProtectedRoute><CreateTenant /></AdminProtectedRoute>} />
