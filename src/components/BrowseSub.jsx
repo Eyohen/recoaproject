@@ -13,7 +13,6 @@ const BrowseSub = () => {
     setIsLoading(true);
     try {
       const res = await axios.get(URL + "/api/submarkets/");
-      console.log("mt submarkt", res.data);
       setSubMarkets(res.data);
       if (res.data.length === 0) {
         setNoResults(true);
@@ -38,17 +37,23 @@ const BrowseSub = () => {
       </p>
       {isLoading ? (
         <p className="text-center">Loading...</p>
+      ) : noResults ? (
+        <p className="text-center">No results found.</p>
       ) : (
-        <div className="flex space-x-3 md:flex-row flex-col justify-center items-center">
-          {noResults ? (
-            <p className="text-center">No results found.</p>
-          ) : (
-            subMarkets.map((submarket) => (
-              <Link to={`/findcommunity/${submarket.name}/${submarket.location}`} key={submarket._id}>
-                <SubCards submarket={submarket} />
-              </Link>
-            ))
-          )}
+        <div
+          className={`flex ${
+            subMarkets.length ? "justify-start" : "justify-center"
+          } flex-nowrap overflow-x-auto py-2 -mx-2`}
+        >
+          {subMarkets.map((submarket) => (
+            <Link
+              to={`/findcommunity/${submarket.name}/${submarket.location}`}
+              key={submarket._id}
+              className="px-2 first:ml-auto last:mr-auto"
+            >
+              <SubCards submarket={submarket} />
+            </Link>
+          ))}
         </div>
       )}
     </div>
