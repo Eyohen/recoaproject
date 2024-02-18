@@ -18,16 +18,20 @@ const EditUnitType = () => {
   const [bathroom, setBathroom] = useState("");
   const [loading, setLoading] = useState(true); // State for loading screen
   const [updateDisabled, setUpdateDisabled] = useState(false); // State to disable update button
+  const [file, setFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState(""); // State to hold the image URL
 
   const fetchunittypes = async () => {
     try {
       console.log("thisis it", unittypeId);
       const res = await axios.get(URL + "/api/unittypes/" + unittypeId);
+      console.log(res.data);
       setName(res.data.name);
       setDescription(res.data.desc);
       setPrice(res.data.price);
       setSize(res.data.size);
       setBedroom(res.data.bedroom);
+      setImageUrl(res.data.photo);
       setBathroom(res.data.bathroom);
       setUnitNo(res.data.unitNo);
       setNumAvailable(res.data.numAvailable);
@@ -43,12 +47,33 @@ const EditUnitType = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     setUpdateDisabled(true); // Disable update button
+    try {
+      if (file) {
+        // If there is a file, upload it first
+        const uploadedImageUrl = await handleFileUpload();
+        // Then update the submarket with the uploaded image URL
+        await updateUnittype(uploadedImageUrl);
+      } else {
+        // If no file, update the submarket directly
+        await updateUnittype(imageUrl);
+      }
+      toast.success("Community updated successfully");
+      navigate(-1);
+    } catch (err) {
+      console.log(err);
+      toast.error("failed to update community");
+    } finally {
+      setUpdateDisabled(false); // Enable update button
+    }
+  };
 
+  const updateUnittype = async (imageUrl) => {
     const unittype = {
       name,
       desc: description,
       bedroom,
       price,
+      photo: imageUrl,
       size,
       bathroom,
       numAvailable,
@@ -69,9 +94,25 @@ const EditUnitType = () => {
       toast.success("Unittype updated successfully");
     } catch (err) {
       console.log(err);
-      toast.error('Failed to update unittype')
+      toast.error("Failed to update unittype");
     } finally {
       setUpdateDisabled(false); // Enable update button
+    }
+  };
+
+  // Function to handle file upload
+  const handleFileUpload = async () => {
+    const data = new FormData();
+    const filename = Date.now() + file.name;
+    data.append("img", filename);
+    data.append("file", file);
+
+    try {
+      const url = await axios.post(URL + "/api/upload", data);
+      return url.data[0]; // Return the uploaded image URL
+    } catch (err) {
+      console.log(err);
+      toast.error("failed to upload image");
     }
   };
 
@@ -98,6 +139,14 @@ const EditUnitType = () => {
             Update a unittype
           </h1>
           <form className="w-full flex flex-col space-y-4 md:space-y-8 mt-4">
+            {imageUrl && (
+              <img
+                src={imageUrl}
+                alt="Unit type Photo"
+                className="mx-auto mb-4"
+                style={{ maxHeight: "200px" }}
+              />
+            )}
             <input
               onChange={(e) => setName(e.target.value)}
               value={name}
@@ -158,6 +207,11 @@ const EditUnitType = () => {
               cols={30}
               className="px-4 py-2 border outline-none"
               placeholder="Enter post description"
+            />
+            <input
+              onChange={(e) => setFile(e.target.files[0])}
+              type="file"
+              className="px-4"
             />
             <button
               onClick={handleUpdate}

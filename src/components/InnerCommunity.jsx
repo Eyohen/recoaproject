@@ -14,6 +14,8 @@ const InnerCommunity = () => {
   const [selectedStatus, setSelectedStatus] = useState("");
   const [submarket, setSubMarket] = useState([]);
   const [created, setCreated] = useState(false);
+  const [openingYear, setOpeningYear] = useState("");
+  const [openingMonth, setOpeningMonth] = useState("");
   const [createDisabled, setCreateDisabled] = useState(false); // State to disable create button
 
   const fetchSubMarket = async () => {
@@ -56,14 +58,23 @@ const InnerCommunity = () => {
   };
 
   const createCommunity = async (imageUrl) => {
-    const community = {
+    let community = {
       name,
       desc,
-      location,
       status: selectedStatus,
+      submarket: selectedSubMarket,
       photo: imageUrl,
     };
 
+    // Include openingDate if status is "Opening in" and both year and month are selected
+    if (selectedStatus === "Opening in" && openingYear && openingMonth) {
+      community = {
+        ...community,
+        openingDate: `${openingMonth} ${openingYear}`,
+      };
+    }
+
+    console.log(community);
     try {
       const accessToken = localStorage.getItem("access_token");
       if (!accessToken) {
@@ -152,6 +163,50 @@ const InnerCommunity = () => {
             <option value="Coming Soon">Coming Soon</option>
             <option value="Opening in">Opening in</option>
           </select>
+
+          {selectedStatus === "Opening in" && (
+            <>
+              <select
+                value={openingYear}
+                onChange={(e) => setOpeningYear(e.target.value)}
+                className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+              >
+                <option value="">Select Year</option>
+                {/* Example year range; adjust as necessary */}
+                {[...Array(10)].map((_, index) => (
+                  <option key={index} value={2024 + index}>
+                    {2024 + index}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={openingMonth}
+                onChange={(e) => setOpeningMonth(e.target.value)}
+                className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+              >
+                <option value="">Select Month</option>
+                {/* Example month options */}
+                {[
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "July",
+                  "August",
+                  "September",
+                  "October",
+                  "November",
+                  "December",
+                ].map((month, index) => (
+                  <option key={index} value={month}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
 
           <textarea
             onChange={(e) => setDesc(e.target.value)}

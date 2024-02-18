@@ -1,28 +1,23 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Floorcard from "./Floorcard";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Loader from "../components/Loader"; // Make sure to uncomment this
-import { URL } from "../url";
 
-const FloorPlans = () => {
+const FloorPlans = ({ community }) => {
   const { search } = useLocation();
-  const submarketId = useParams().id;
-  const [communities, setCommunities] = useState([]);
+  const [unittype, setUnittype] = useState([]);
   const [noResults, setNoResults] = useState(false);
   const [loader, setLoader] = useState(false);
 
   const fetchPosts = async () => {
     setLoader(true);
     try {
-      const res = await axios.get(`${URL}/api/communities${search}`);
-      console.log("floorplandata", res.data);
-      const filteredCommunities = res.data.filter(
-        (community) => community.submarket._id === submarketId
-      );
-      setCommunities(filteredCommunities);
+      const filteredUnittype = community.unitTypes;
+      console.log("filteredUnittype", filteredUnittype);
+      setUnittype(filteredUnittype);
 
-      setNoResults(filteredCommunities.length === 0);
+      setNoResults(filteredUnittype.length === 0);
     } catch (err) {
       console.log(err);
       setNoResults(true); // Consider setting noResults to true in case of error
@@ -36,19 +31,20 @@ const FloorPlans = () => {
   }, [search]);
 
   return (
-    <div className="bg-green-800 p-6 rounded-3xl max-w-6xl mx-auto mt-10">
+    // FloorPlans component
+    <div className="bg-green-800 p-6 rounded-3xl max-w-6xl mx-auto mt-10 overflow-hidden">
       <p className="text-white text-3xl text-center mt-3 font-medium">
         Floor Plans
       </p>
 
       {loader ? (
-        <Loader /> // Display Loader component when data is being fetched
+        <Loader />
       ) : noResults ? (
-        <p className="text-white text-center">No floor plans found.</p> // Display message when no results are found
+        <p className="text-white text-center">No floor plans found.</p>
       ) : (
-        <div className="flex space-x-3 md:flex-row flex-col justify-center items-center overflow-x-scroll">
-          {communities.map((community) => (
-            <Floorcard key={community._id} community={community.unitTypes} />
+        <div className="flex overflow-x-auto space-x-4 py-4">
+          {unittype.map((unittype) => (
+            <Floorcard key={unittype._id} unittype={unittype} />
           ))}
         </div>
       )}

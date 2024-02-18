@@ -10,11 +10,9 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(""); // Use a state to store the error message
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async () => {
-    setIsLoading(true);
     try {
       const res = await axios.post(URL + "/api/auth/register", {
         firstName,
@@ -41,9 +39,7 @@ const Register = () => {
         setErrorMessage("An error occurred. Please try again later.");
       }
       console.log(err);
-    } finally {
-      setIsLoading(false); // Set loading back to false
-    }
+    } 
   };
 
   return (

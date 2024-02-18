@@ -35,7 +35,7 @@ const FindSide = ({ location, name }) => {
     <div className="border h-screen w-[26%] p-3">
       <div className="text-center mt-6 space-y-3">
         {items.map((item) => (
-          <Link to={`/recoa/${item._id}`} key={item._id}>
+          <Link to={`/community/${item._id}`} key={item._id}>
             <SideBox
               item={item}
               // Determine if this item is the current one

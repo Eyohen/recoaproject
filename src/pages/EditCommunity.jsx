@@ -17,8 +17,8 @@ const EditCommunity = () => {
   const [updateDisabled, setUpdateDisabled] = useState(false); // State to disable update button
   const [selectedSubMarket, setSelectedSubMarket] = useState([]);
     const [submarket, setSubMarket] = useState([]);
-
-
+  const [openingYear, setOpeningYear] = useState(""); // Added for "Opening in" status
+  const [openingMonth, setOpeningMonth] = useState("");
   const statuses = [
     {
       _id: 12,
@@ -55,6 +55,12 @@ const EditCommunity = () => {
       setDescription(res.data.desc);
       setImageUrl(res.data.photo);
       setStatus(res.data.status);
+      // Parse openingDate if available and status is "Opening in"
+      if (res.data.status === "Opening in" && res.data.openingDate) {
+        const [parsedMonth, parsedYear] = res.data.openingDate.split(" ");
+        setOpeningMonth(parsedMonth);
+        setOpeningYear(parsedYear);
+      }
       setLoading(false); // Hide loading screen after data is fetched
     } catch (err) {
       console.log(err);
@@ -90,13 +96,22 @@ const EditCommunity = () => {
   };
 
   const updateSubmarket = async (imageUrl) => {
-    const Community = {
+    let Community = {
       name,
       description,
       location,
       status,
+      submarket: selectedSubMarket,
       photo: imageUrl, // Append the image URL to the community payload
     };
+
+    // Include openingDate if status is "Opening in" and both year and month are selected
+    if (status === "Opening in" && openingYear && openingMonth) {
+      Community = {
+        ...Community,
+        openingDate: `${openingMonth} ${openingYear}`,
+      };
+    }
 
     try {
       const accessToken = localStorage.getItem("access_token");
@@ -193,6 +208,50 @@ const EditCommunity = () => {
                 </option>
               ))}
             </select>
+
+            {status === "Opening in" && (
+              <>
+                <select
+                  value={openingYear}
+                  onChange={(e) => setOpeningYear(e.target.value)}
+                  className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+                >
+                  <option value="">Select Year</option>
+                  {/* Year options */}
+                  {[...Array(10)].map((_, index) => (
+                    <option key={index} value={2024 + index}>
+                      {2024 + index}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={openingMonth}
+                  onChange={(e) => setOpeningMonth(e.target.value)}
+                  className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
+                >
+                  <option value="">Select Month</option>
+                  {/* Month options */}
+                  {[
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
+                  ].map((month, index) => (
+                    <option key={index} value={month}>
+                      {month}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
 
             <input
               onChange={(e) => setFile(e.target.files[0])}

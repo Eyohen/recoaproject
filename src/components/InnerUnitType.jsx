@@ -109,14 +109,16 @@ const fetchCommunity = async () => {
 
   const handleFileUpload = async () => {
     const data = new FormData();
+    const filename = Date.now() + file.name;
+    data.append("img", filename);
     data.append("file", file);
 
     try {
-      const uploadRes = await axios.post(URL + "/api/upload", data);
-      return uploadRes.data.filePath; // Assuming the API returns the file path of the uploaded image
+      const url = await axios.post(URL + "/api/upload", data);
+      return url.data[0]; // Return the uploaded image URL
     } catch (err) {
       console.log(err);
-      toast.error("Failed to upload image");
+      toast.error("failed to upload image");
     }
   };
 

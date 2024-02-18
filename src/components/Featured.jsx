@@ -6,16 +6,16 @@ import { Link } from "react-router-dom";
 // import { UserContext } from "../context/UserContext"
 
 const Featured = () => {
-  const [subMarkets, setSubMarkets] = useState([]);
+  const [community, setCommunity] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [noResults, setNoResults] = useState(false);
 
-  const fetchSubMarkets = async () => {
+  const fetchSubCommunity = async () => {
     setIsLoading(true);
     try {
       const res = await axios.get(URL + "/api/communities/");
-      console.log(res.data)
-      setSubMarkets(res.data);
+      console.log(res.data);
+      setCommunity(res.data);
       if (res.data.length === 0) {
         setNoResults(true);
       } else {
@@ -29,7 +29,7 @@ const Featured = () => {
   };
 
   useEffect(() => {
-    fetchSubMarkets();
+    fetchSubCommunity();
   }, []);
 
   return (
@@ -44,10 +44,10 @@ const Featured = () => {
           {noResults ? (
             <p className="text-center">No results found.</p>
           ) : (
-            subMarkets.map((submarket) => (
+            community.map((community) => (
               <>
-                <Link to={`/recoa/${submarket.submarket._id}`}>
-                  <Featuredcard submarket={submarket} key={submarket._id} />
+                <Link to={`/community/${community._id}`}>
+                  <Featuredcard community={community} key={community._id} />
                 </Link>
               </>
             ))
