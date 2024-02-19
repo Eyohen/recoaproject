@@ -2,13 +2,41 @@
 import LOGO from "../assets/logo.png";
 
 const SideBox = ({ item, isCurrent }) => {
+  const count = item.communities.length;
+  const tagStyle =
+    count === 0
+      ? "text-orange-600 text-xs relative top-[-0.5em] left-1"
+      : "text-green-500 text-xs relative top-[-0.5em] left-1";
+
+  // Format the last active date as DD MM YYYY
+   const formatDate = (date) => {
+     const d = new Date(date);
+     const day = d.getDate(); 
+     const monthNames = [
+       "Jan",
+       "Feb",
+       "Mar",
+       "Apr",
+       "May",
+       "Jun",
+       "Jul",
+       "Aug",
+       "Sep",
+       "Oct",
+       "Nov",
+       "Dec",
+     ];
+     const month = monthNames[d.getMonth()];
+     const year = d.getFullYear();
+     return `${day} ${month} ${year}`; 
+   };
+
+    const containerClass = `flex flex-col space-y-4 bg-green-100 rounded-2xl p-1 relative ${
+      isCurrent ? "border border-green-500" : "mb-4"
+    }`;
   return (
     <>
-      <div
-        className={`flex flex-col space-y-4 bg-green-100 rounded-2xl p-1 relative ${
-          isCurrent ? "border border-green-500" : ""
-        }`}
-      >
+      <div className={containerClass}>
         <div className="flex space-x-4 items-center">
           <img
             src={item.photo ? item.photo : LOGO}
@@ -18,23 +46,19 @@ const SideBox = ({ item, isCurrent }) => {
           <div>
             <p className="text-green-800 font-bold text-xl text-left">
               {item.name}
-              {isCurrent && (
-                <span className="text-green-500 text-xs relative top-[-0.5em] left-1">
-                  ⬤
-                </span>
-              )}
+              {isCurrent && <span className={tagStyle}>⬤</span>}
             </p>
             <p className="text-green-800 font-light text-lg text-left">
               {item.location}
             </p>
             <p className="text-green-800 text-sm font-medium text-left">
-              {item.floorsAvailable} Units
+              {count} communities
             </p>
             <p className="text-green-800 text-sm font-medium text-left">
-              starting from ${item.price}
+              currently {count === 0 ? "inactive" : item.status}
             </p>
             <p className="text-green-800 text-sm font-medium text-left">
-              {new Date(item?.createdAt).toLocaleString()}
+              last active {formatDate(item?.updatedAt)}
             </p>
           </div>
         </div>
