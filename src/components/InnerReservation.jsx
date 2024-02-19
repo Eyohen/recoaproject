@@ -23,7 +23,7 @@ const InnerReservation = () => {
   const fetchUnitTypes = async () => {
     try {
       const res = await axios.get(URL + "/api/unitTypes");
-            console.log(res.data);
+            console.log('here',res.data);
       setUnitTypes(res.data);
     } catch (err) {
       console.log(err);
@@ -105,7 +105,7 @@ const InnerReservation = () => {
             <option value="">Select Unit Type</option>
             {unitTypes.map((type) => (
               <option key={type._id} value={type._id}>
-                {type.name} - {type.numAvailable} available
+                {type.name} - {type.numAvailable} available - {type.community.name} - {type.community.status}
               </option>
             ))}
           </select>
