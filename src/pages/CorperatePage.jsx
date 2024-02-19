@@ -11,6 +11,7 @@ const CorperatePage = () => {
   const fetchTenant = async () => {
     try {
       const res = await axios.get(URL + "/api/tenants/");
+      console.log(res.data);
       setCompanies(res.data);
     } catch (err) {
       console.log(err);
