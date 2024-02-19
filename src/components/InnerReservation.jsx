@@ -12,6 +12,7 @@ const InnerReservation = () => {
   const [selectedUnitType, setSelectedUnitType] = useState("");
   const [selectedTenant, setSelectedTenant] = useState("");
   const [count, setCount] = useState("");
+  const [availableCount, setAvailableCount] = useState(0); // Store available count
   const [created, setCreated] = useState(false);
   const [createDisabled, setCreateDisabled] = useState(false);
 
@@ -23,7 +24,7 @@ const InnerReservation = () => {
   const fetchUnitTypes = async () => {
     try {
       const res = await axios.get(URL + "/api/unitTypes");
-            console.log('here',res.data);
+      console.log("here", res.data);
       setUnitTypes(res.data);
     } catch (err) {
       console.log(err);
@@ -42,8 +43,22 @@ const InnerReservation = () => {
     }
   };
 
+  const handleUnitTypeChange = (e) => {
+    const selectedId = e.target.value;
+    setSelectedUnitType(selectedId);
+    const selectedType = unitTypes.find((type) => type._id === selectedId);
+    setAvailableCount(selectedType ? selectedType.numAvailable : 0);
+  };
+
   const handleCreate = async (e) => {
     e.preventDefault();
+
+    // Validate count against available count
+    if (parseInt(count) > availableCount) {
+      toast.error("Entered count exceeds available units");
+      return; // Prevent further execution
+    }
+
     setCreateDisabled(true); // Disable create button
     try {
       await createReservation();
@@ -80,7 +95,7 @@ const InnerReservation = () => {
         },
       });
       toast.success("Reservation created successfully");
-            navigate("/admin/reservation/view");
+      navigate("/admin/reservation/view");
     } catch (error) {
       console.error(error);
       toast.error("Failed to create reservation");
@@ -99,13 +114,14 @@ const InnerReservation = () => {
         <form className="w-full flex flex-col space-y-4 md:space-y-8 mt-4">
           <select
             value={selectedUnitType}
-            onChange={(e) => setSelectedUnitType(e.target.value)}
+            onChange={handleUnitTypeChange}
             className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
           >
             <option value="">Select Unit Type</option>
             {unitTypes.map((type) => (
               <option key={type._id} value={type._id}>
-                {type.name} - {type.numAvailable} available - {type.community.name} - {type.community.status}
+                {type.name} - {type.numAvailable} available -{" "}
+                {type.community.name} - {type.community.status}
               </option>
             ))}
           </select>
