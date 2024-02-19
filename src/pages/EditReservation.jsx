@@ -17,6 +17,7 @@ const EditReservation = () => {
   const fetchReservation = async () => {
     try {
       const res = await axios.get(URL + "/api/reservations/" + reservationId);
+      console.log('fgg',res.data);
       setUnitType(res.data.unitType);
       setTenant(res.data.tenant);
       setCount(res.data.count);
@@ -92,14 +93,14 @@ const EditReservation = () => {
           <form className="w-full flex flex-col space-y-4 md:space-y-8 mt-4">
             <input
               onChange={(e) => setUnitType(e.target.value)}
-              value={unitType}
+              value={unitType.name}
               type="text"
               placeholder="Enter Unit Type"
               className="px-4 py-2 border outline-none text-gray-400"
             />
             <input
               onChange={(e) => setTenant(e.target.value)}
-              value={tenant}
+              value={tenant.tenant}
               type="text"
               placeholder="Enter Tenant"
               className="px-4 py-2 border outline-none text-gray-400"
