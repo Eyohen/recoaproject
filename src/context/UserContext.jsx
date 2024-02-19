@@ -27,7 +27,6 @@ export function UserContextProvider({ children }) {
 
     if (!accessToken) {
       setLoading(false); // Ensure to set loading to false if no user or token is found
-      toast.error("Oops! You are not logged in. Please login to continue.");
       return;
     }
 
