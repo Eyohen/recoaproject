@@ -16,6 +16,7 @@ const RecoaSquare = () => {
     setIsLoading(true);
     try {
       const res = await axios.get(`${URL}/api/communities/${communityId}`);
+      console.log(res.data);
       setCommunity(res.data);
     } catch (err) {
       console.error(err);
@@ -39,7 +40,7 @@ if (isLoading) {
   if (error) return <div>Error: {error.message}</div>;
 
   // Check if the community is now pre-leasing
-  const isNowPreleasing = community.status === "Now pre-leasing";
+  const isNowPreleasing = community?.status === "Now pre-leasing";
 
   return (
     <>
