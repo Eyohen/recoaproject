@@ -4,6 +4,7 @@ import axios from "axios";
 import { URL } from "../url";
 import { useParams, Link } from "react-router-dom";
 import Loader from "../components/Loader";
+import Navbar from "../components/Navbar";
 
 const RecoaSquare = () => {
   const communityId = useParams().id;
@@ -15,7 +16,6 @@ const RecoaSquare = () => {
     setIsLoading(true);
     try {
       const res = await axios.get(`${URL}/api/communities/${communityId}`);
-      console.log("data", res.data);
       setCommunity(res.data);
     } catch (err) {
       console.error(err);
@@ -29,13 +29,21 @@ const RecoaSquare = () => {
     fetchCommunity();
   }, [communityId]);
 
-  if (isLoading) return <Loader />;
+if (isLoading) {
+  return (
+    <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-75 z-50">
+      <Loader />
+    </div>
+  );
+}
   if (error) return <div>Error: {error.message}</div>;
 
   // Check if the community is now pre-leasing
   const isNowPreleasing = community.status === "Now pre-leasing";
 
   return (
+    <>
+    <Navbar />
     <div className="container mx-auto p-4">
       <h1 className="text-4xl font-semibold mt-8 text-center text-green-700">
         Welcome to {community.name}
@@ -99,6 +107,7 @@ const RecoaSquare = () => {
         </p>
       )}
     </div>
+    </>
   );
 };
 
