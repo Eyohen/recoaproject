@@ -31,6 +31,7 @@ import Waitlist from './pages/Waitlist'
 import CreateUnitType from './pages/CreateUnitType'
 import CreateReservation from './pages/CreateReservation';
 import CreateUserReservation from './pages/CreateUserReservation';
+import CreateUser from './pages/CreateUser';
 import UnitTypesCreated from './pages/UnitTypesCreated'
 import InsideCommunity from './pages/InsideCommunity'
 import "react-toastify/dist/ReactToastify.css";
@@ -66,6 +67,7 @@ const App = () => {
         <Route path="/admin/community" element={<AdminProtectedRoute><CreateCommunity /></AdminProtectedRoute>} />
         <Route path="/admin/reservation" element={<AdminProtectedRoute><CreateReservation /></AdminProtectedRoute>} />
         <Route path="/admin/reservation/user" element={<AdminProtectedRoute><CreateUserReservation /></AdminProtectedRoute>} />
+        <Route path="/admin/user/view" element={<AdminProtectedRoute><CreateUser /></AdminProtectedRoute>} />
         <Route path="/admin/unit" element={<AdminProtectedRoute><CreateUnitType /></AdminProtectedRoute>} />
         <Route path="/admin/tenant/view" element={<AdminProtectedRoute><TenantsCreated /></AdminProtectedRoute>} />
         <Route path="/admin/community/view" element={<AdminProtectedRoute><CommunitiesCreated /></AdminProtectedRoute>} />
