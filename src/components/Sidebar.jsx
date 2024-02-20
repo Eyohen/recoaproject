@@ -25,6 +25,9 @@ const Sidebar = () => {
         <p className={`px-4 py-2 rounded-lg ${isActive("/admin/tenant")}`}>
           <Link to={"/admin/tenant"}>Tenant</Link>
         </p>
+        <p className={`px-4 py-2 rounded-lg ${isActive("/admin/user/view")}`}>
+          <Link to={"/admin/user/view"}>Users</Link>
+        </p>
         <p className={`px-4 py-2 rounded-lg ${isActive("/admin/unit")}`}>
           <Link to={"/admin/unit"}>Units</Link>
         </p>

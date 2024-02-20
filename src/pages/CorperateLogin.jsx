@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 import Navbar from "../components/Navbar";
 import HomeBackground from "../assets/Homepage.png";
 import { URL } from "../url"; // Assume config.js stores all your constants
@@ -10,8 +10,12 @@ const CorporateLogin = () => {
   const { id: tenantId } = useParams();
   const navigate = useNavigate();
 
+  const [isRegistering, setIsRegistering] = useState(false); // State to toggle between login and register
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState(""); // For registration
+  const [lastName, setLastName] = useState(""); // For registration
+  const [phone, setPhone] = useState(""); // For registration
   const [isLoading, setIsLoading] = useState(false);
   const [tenant, setTenant] = useState({});
   const [error, setError] = useState("");
@@ -33,10 +37,10 @@ const CorporateLogin = () => {
   const handleLogin = async () => {
     setIsLoading(true);
     try {
-      const { data, status } = await axios.post(
-        `${URL}/api/tenants/login`,
-        { email, password }
-      );
+      const { data, status } = await axios.post(`${URL}/api/tenants/login`, {
+        email,
+        password,
+      });
       if (status === 200) {
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("currentUser", JSON.stringify(data));
@@ -44,6 +48,31 @@ const CorporateLogin = () => {
       }
     } catch (err) {
       setError("Email or password is incorrect. Please try again.");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleRegister = async () => {
+    setIsLoading(true);
+    try {
+      const res = await axios.post(`${URL}/api/users/new`, {
+        email,
+        password,
+        firstName,
+        lastName,
+        phone,
+        tenantId,
+      });
+      if (res.status === 200) {
+        // Similar to handleLogin but with registration logic
+        toast.success("Registration successful. Please login.");
+        setIsRegistering(false);
+      }
+
+    } catch (err) {
+      setError(err.response.data);
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -76,16 +105,56 @@ const CorporateLogin = () => {
           type="password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
-          className="text-green-500 px-12 py-2 mt-6 rounded"
+          className="text-green-500 px-12 py-2 mt-3 rounded"
           placeholder="Enter Password"
         />
+        {isRegistering && (
+          <>
+            <input
+              type="text"
+              onChange={(e) => setFirstName(e.target.value)}
+              value={firstName}
+              className="text-green-500 px-12 py-2 mt-3 rounded"
+              placeholder="First Name"
+            />
+            <input
+              type="text"
+              onChange={(e) => setLastName(e.target.value)}
+              value={lastName}
+              className="text-green-500 px-12 py-2 mt-3 rounded"
+              placeholder="Last Name"
+            />
+            <input
+              type="tel"
+              onChange={(e) => setPhone(e.target.value)}
+              value={phone}
+              className="text-green-500 px-12 py-2 mt-3 rounded"
+              placeholder="Phone Number"
+            />
+          </>
+        )}
         <button
-          onClick={handleLogin}
+          onClick={isRegistering ? handleRegister : handleLogin}
           disabled={isLoading}
           className="bg-green-500 text-white text-lg px-12 py-2 mt-6 rounded disabled:bg-green-300"
         >
-          {isLoading ? "Logging in..." : "Login"}
+          {isLoading ? "Processing..." : isRegistering ? "Register" : "Login"}
         </button>
+        {isRegistering ? (
+          <div
+            onClick={() => setIsRegistering(false)}
+            className="cursor-pointer text-black-500 hover:text-black mt-3 bg-gray-500 p-1"
+          >
+            Already have an account? Login
+          </div>
+        ) : (
+          <div
+            onClick={() => setIsRegistering(true)}
+            className="cursor-pointer text-black-500 hover:text-black mt-3 bg-gray-500 p-1"
+          >
+            New here? Register
+          </div>
+        )}
         {error && (
           <p className="bg-red-500 text-white-500 px-2 py-2 rounded text-xl mt-2">
             {error}

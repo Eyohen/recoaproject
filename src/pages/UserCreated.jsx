@@ -4,57 +4,57 @@ import axios from "axios";
 import { URL } from "../url";
 import {SlTrash, SlEye } from "react-icons/sl";
 
-const UserReservationsCreated = () => {
-  const [reservations, setReservations] = useState([]);
-  const [selectedReservation, setSelectedReservation] = useState(null);
+const UserCreated = () => {
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const fetchReservations = async () => {
+  const fetchUsers = async () => {
     try {
       const accessToken = localStorage.getItem("access_token");
       if (!accessToken) {
         console.error("Access token not found");
         return;
       }
-      const res = await axios.get(URL + "/api/reservations/user/all", {
+      const res = await axios.get(URL + "/api/users/", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
       console.log('thehere',res.data);
-      setReservations(res.data);
+      setUsers(res.data);
     } catch (error) {
-      console.error("Failed to fetch reservations:", error);
+      console.error("Failed to fetch users:", error);
     }
   };
 
   useEffect(() => {
-    fetchReservations();
+    fetchUsers();
   }, []);
 
-  const handleDelete = async (reservationId) => {
+  const handleDelete = async (userId) => {
     try {
       const accessToken = localStorage.getItem("access_token");
       if (!accessToken) {
         console.error("Access token not found");
         return;
       }
-      await axios.delete(URL + `/api/reservations/user/${reservationId}`, {
+      await axios.delete(URL + `/api/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      setReservations((prevReservations) =>
-        prevReservations.filter(
-          (reservation) => reservation.reservation._id !== reservationId
+      setUsers((prevUsers) =>
+        prevUsers.filter(
+          (user) => user.user._id !== userId
         )
       );
     } catch (error) {
-      console.error("Failed to delete reservation:", error);
+      console.error("Failed to delete user:", error);
     }
   };
-  const openModal = (reservation) => {
-    setSelectedReservation(reservation);
+  const openModal = (user) => {
+    setSelectedUser(user);
     setShowModal(true);
   };
 
@@ -72,7 +72,7 @@ const UserReservationsCreated = () => {
       <div className="max-w-[1100px] bg-white mx-auto">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-16">
           <h1 className="font-bold text-xl mt-10 text-center">
-            Tenant User Reservations
+            Tenant User Users
           </h1>
 
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-5">
@@ -85,13 +85,13 @@ const UserReservationsCreated = () => {
                   Email
                 </th>
                 <th scope="col" className="px-6 py-3 font-light">
-                  Unit Type
+                  name
+                </th>
+                <th scope="col" className="px-6 py-3 font-light">
+                  Role
                 </th>
                 <th scope="col" className="px-6 py-3 font-light">
                   Tenant
-                </th>
-                <th scope="col" className="px-6 py-3 font-light">
-                  Count
                 </th>
                 <th scope="col" className="px-6 py-3 font-light">
                   delete
@@ -102,36 +102,30 @@ const UserReservationsCreated = () => {
               </tr>
             </thead>
             <tbody>
-              {reservations.map((reservation) => (
+              {users.map((user) => (
                 <tr
                   className="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200"
-                  key={reservation._id}
+                  key={user._id}
                 >
+                  <td className="px-6 py-2">{user._id.slice(0, 6)}</td>
+                  <td className="px-6 py-2">{user.email}</td>
                   <td className="px-6 py-2">
-                    {reservation.reservation._id.slice(0, 6)}
+                    {user.firstName} {user.lastName}
                   </td>
+                  <td className="px-6 py-2">{user.role}</td>
                   <td className="px-6 py-2">
-                    {reservation.user ? reservation.user.email : null}
+                    {user.tenant ? user.tenant.tenant : "-"}
                   </td>
-                  <td className="px-6 py-2">
-                    {reservation.reservation.unitType.name}
-                  </td>
-                  <td className="px-6 py-2">
-                    {reservation.reservation.tenant
-                      ? reservation.reservation.tenant.tenant
-                      : null}
-                  </td>
-                  <td className="px-6 py-2">{reservation.count}</td>
                   <td className="px-6 py-2">
                     <SlTrash
                       className="ml-2 text-red-800 cursor-pointer"
-                      onClick={() => handleDelete(reservation._id)}
+                      onClick={() => handleDelete(user._id)}
                     />
                   </td>
                   <td
                     className="px-6 py-2"
-                    key={reservation._id}
-                    onClick={() => openModal(reservation)} // Add onClick handler
+                    key={user._id}
+                    onClick={() => openModal(user)} // Add onClick handler
                   >
                     <SlEye className="ml-2 text-green-800 cursor-pointer" />
                   </td>
@@ -145,65 +139,53 @@ const UserReservationsCreated = () => {
       {showModal && (
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 z-50">
           <div className="bg-white p-8 rounded-lg max-w-md overflow-y-auto">
-            <h2 className="text-xl font-bold mb-4">Reservation Details</h2>
+            <h2 className="text-xl font-bold mb-4">User Details</h2>
             <div
-              key={selectedReservation._id}
+              key={selectedUser._id}
               className="border-b border-gray-300 mb-4 pb-4"
             >
+              {/* Existing details display */}
               <div className="flex justify-between mb-2">
                 <p className="font-bold">ID:</p>
-                <p>{selectedReservation._id}</p>
+                <p>{selectedUser._id}</p>
               </div>
               <div className="flex justify-between mb-2">
-                <p className="font-bold">Unit Type:</p>
-                <p>{selectedReservation.reservation.unitType.name}</p>
+                <p className="font-bold">Email:</p>
+                <p>{selectedUser.email}</p>
               </div>
               <div className="flex justify-between mb-2">
-                <p className="font-bold">Unit Price:</p>
-                <p>${selectedReservation.reservation.unitType.price}</p>
-              </div>
-              <div className="flex justify-between mb-2">
-                <p className="font-bold">Count:</p>
-                <p>{selectedReservation.count}</p>
-              </div>
-              <div className="flex justify-between mb-2">
-                <p className="font-bold">Reserve Value:</p>
+                <p className="font-bold">Name:</p>
                 <p>
-                  $
-                  {selectedReservation.reservation.unitType.price *
-                    selectedReservation.count}
+                  {selectedUser.firstName} {selectedUser.lastName}
                 </p>
+              </div>
+              <div className="flex justify-between mb-2">
+                <p className="font-bold">Role:</p>
+                <p>{selectedUser.role}</p>
               </div>
               <div className="flex justify-between mb-2">
                 <p className="font-bold">Tenant:</p>
-                <p>{selectedReservation.reservation.tenant.tenant}</p>
+                <p>{selectedUser.tenant ? selectedUser.tenant.tenant : "-"}</p>
+              </div>
+
+              {/* New details for waitlist and reservations count */}
+              <div className="flex justify-between mb-2">
+                <p className="font-bold">Waitlist Count:</p>
+                <p>{selectedUser.waitlists.length}</p>
               </div>
               <div className="flex justify-between mb-2">
-                <p className="font-bold">Tenant Email:</p>
-                <p>{selectedReservation.reservation.tenant.email}</p>
+                <p className="font-bold">Reservations Count:</p>
+                {/* Calculate unique reservations count */}
+                <p>{[...new Set(selectedUser.reservations)].length}</p>
               </div>
-              <div className="flex justify-between mb-2">
-                <p className="font-bold">User:</p>
-                <p>
-                  {selectedReservation.user.firstName}{" "}
-                  {selectedReservation.user.lastName}
-                </p>
-              </div>
-              <div className="flex justify-between mb-2">
-                <p className="font-bold">User Email:</p>
-                <p>{selectedReservation.user.email}</p>
-              </div>
+
               <div className="flex justify-between mb-2">
                 <p className="font-bold">Created At:</p>
-                <p>
-                  {new Date(selectedReservation.createdAt).toLocaleDateString()}
-                </p>
+                <p>{new Date(selectedUser.createdAt).toLocaleDateString()}</p>
               </div>
               <div className="flex justify-between">
                 <p className="font-bold">Updated At:</p>
-                <p>
-                  {new Date(selectedReservation.updatedAt).toLocaleString()}
-                </p>
+                <p>{new Date(selectedUser.updatedAt).toLocaleString()}</p>
               </div>
             </div>
             <button
@@ -219,4 +201,4 @@ const UserReservationsCreated = () => {
   );
 };
 
-export default UserReservationsCreated;
+export default UserCreated;
