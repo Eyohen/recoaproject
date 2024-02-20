@@ -46,7 +46,7 @@ const UserCreated = () => {
       });
       setUsers((prevUsers) =>
         prevUsers.filter(
-          (user) => user.user._id !== userId
+          (user) => user._id !== userId
         )
       );
     } catch (error) {
