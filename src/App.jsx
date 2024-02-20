@@ -17,6 +17,7 @@ import About from './pages/About'
 import Communities from './pages/Communities'
 import CommunitiesCreated from './pages/CommunitiesCreated'
 import ReservationsCreated from './pages/ReservationCreated'
+import UserReservationsCreated from './pages/UserReservationCreated'
 import SubmarketsCreated from './pages/SubmarketsCreated'
 import EditCommunity from './pages/EditCommunity'
 import EditSubmarket from './pages/EditSubmarket'
@@ -29,6 +30,7 @@ import CorperateLogin from './pages/CorperateLogin'
 import Waitlist from './pages/Waitlist'
 import CreateUnitType from './pages/CreateUnitType'
 import CreateReservation from './pages/CreateReservation';
+import CreateUserReservation from './pages/CreateUserReservation';
 import UnitTypesCreated from './pages/UnitTypesCreated'
 import InsideCommunity from './pages/InsideCommunity'
 import "react-toastify/dist/ReactToastify.css";
@@ -63,10 +65,12 @@ const App = () => {
         <Route path="/admin/submarket" element={<AdminProtectedRoute><CreateSubmarket /></AdminProtectedRoute>} />
         <Route path="/admin/community" element={<AdminProtectedRoute><CreateCommunity /></AdminProtectedRoute>} />
         <Route path="/admin/reservation" element={<AdminProtectedRoute><CreateReservation /></AdminProtectedRoute>} />
+        <Route path="/admin/reservation/user" element={<AdminProtectedRoute><CreateUserReservation /></AdminProtectedRoute>} />
         <Route path="/admin/unit" element={<AdminProtectedRoute><CreateUnitType /></AdminProtectedRoute>} />
         <Route path="/admin/tenant/view" element={<AdminProtectedRoute><TenantsCreated /></AdminProtectedRoute>} />
         <Route path="/admin/community/view" element={<AdminProtectedRoute><CommunitiesCreated /></AdminProtectedRoute>} />
         <Route path="/admin/reservation/view" element={<AdminProtectedRoute><ReservationsCreated /></AdminProtectedRoute>} />
+        <Route path="/admin/reservation/user/view" element={<AdminProtectedRoute><UserReservationsCreated /></AdminProtectedRoute>} />
         <Route path="/admin/submarket/view" element={<AdminProtectedRoute><SubmarketsCreated /></AdminProtectedRoute>} />
         <Route path="/admin/unit/view" element={<AdminProtectedRoute><UnitTypesCreated /></AdminProtectedRoute>} />
         <Route path="/admin/submarket/edit/:id" element={<AdminProtectedRoute><EditSubmarket /></AdminProtectedRoute>} />
