@@ -137,7 +137,7 @@ const Floorcard = ({ unittype }) => {
         <div className="absolute inset-x-0 top-16 flex flex-col items-center space-y-2">
           <p className="text-white font-medium text-sm">{unittype?.name}</p>
           <p className="text-white font-medium text-lg">
-            <span className="text-xl">{unittype?.numAvailable}</span> available (unreserve
+            <span className="text-xl">{unittype?.numAvailable}</span> available (unreserved)
           </p>
         </div>
 
