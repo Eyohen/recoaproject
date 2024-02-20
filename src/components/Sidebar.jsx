@@ -37,6 +37,9 @@ const Sidebar = () => {
         <p className={`px-4 py-2 rounded-lg ${isActive("/admin/reservation")}`}>
           <Link to={"/admin/reservation"}>Reservations</Link>
         </p>
+        <p className={`px-4 py-2 rounded-lg ${isActive("/admin/reservation/user")}`}>
+          <Link to={"/admin/reservation/user"}>User Reservations</Link>
+        </p>
       </div>
     </div>
   );

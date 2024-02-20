@@ -25,8 +25,6 @@ const InnerSubmarket = () => {
         uploadedImageUrl = await handleFileUpload();
       }
       await createSubmarket(uploadedImageUrl);
-      toast.success("Submarket created successfully");
-
       navigate("/admin/submarket/view");
       setName("");
       setDescription("");
@@ -66,7 +64,7 @@ const InnerSubmarket = () => {
       toast.success("Submarket created successfully");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to create submarket");
+      return error;
     }
   };
 

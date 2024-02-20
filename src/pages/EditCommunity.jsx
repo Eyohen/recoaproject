@@ -15,10 +15,11 @@ const EditCommunity = () => {
   const [imageUrl, setImageUrl] = useState(""); // State to hold the image URL
   const [loading, setLoading] = useState(true); // State for loading screen
   const [updateDisabled, setUpdateDisabled] = useState(false); // State to disable update button
-  const [selectedSubMarket, setSelectedSubMarket] = useState([]);
+  const [selectedSubMarket, setSelectedSubMarket] = useState("");
     const [submarket, setSubMarket] = useState([]);
   const [openingYear, setOpeningYear] = useState(""); // Added for "Opening in" status
   const [openingMonth, setOpeningMonth] = useState("");
+  const [currentSubMarket, setCurrentSubMarket] = useState([]);
   const statuses = [
     {
       _id: 12,
@@ -55,6 +56,8 @@ const EditCommunity = () => {
       setDescription(res.data.desc);
       setImageUrl(res.data.photo);
       setStatus(res.data.status);
+      setCurrentSubMarket(res.data.submarket.name);
+      setSelectedSubMarket(res.data.submarket._id);
       // Parse openingDate if available and status is "Opening in"
       if (res.data.status === "Opening in" && res.data.openingDate) {
         const [parsedMonth, parsedYear] = res.data.openingDate.split(" ");
@@ -81,7 +84,6 @@ const EditCommunity = () => {
         // If no file, update the submarket directly
         await updateSubmarket(imageUrl);
       }
-      toast.success("Community updated successfully");
       navigate(-1);
     } catch (err) {
       console.log(err);
@@ -99,7 +101,6 @@ const EditCommunity = () => {
     let Community = {
       name,
       description,
-      location,
       status,
       submarket: selectedSubMarket,
       photo: imageUrl, // Append the image URL to the community payload
@@ -128,7 +129,7 @@ const EditCommunity = () => {
       //   navigate(-1);
     } catch (err) {
       console.log(err);
-      toast.error("failed to update community");
+      return err;
     }
   };
 
@@ -186,21 +187,22 @@ const EditCommunity = () => {
               type="text"
               placeholder="Enter Community Name"
               className="px-4 py-2 border outline-none text-gray-400"
-            />
+              />
             <select
               value={selectedSubMarket}
               onChange={(e) => setSelectedSubMarket(e.target.value)}
-              className=""
-            >
-              <option value="">Select Submarket:</option>
+              className="px-4 py-2 border outline-none text-gray-400"
+              >
+              <option value="">Current submarket - {currentSubMarket}</option>
               {submarket.map((item) => (
-                <option key={item._id} value={item._id}>
+                  <option key={item._id} value={item._id}>
                   {item.name}
                 </option>
               ))}
             </select>
 
-            <select value={status} onChange={handleStatus} className="">
+            <select value={status} onChange={handleStatus} 
+              className="px-4 py-2 border outline-none text-gray-400">
               <option value="">Select Status:</option>
               {statuses.map((item) => (
                 <option key={item._id} value={item.status}>

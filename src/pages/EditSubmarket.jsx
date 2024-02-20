@@ -41,7 +41,6 @@ const EditSubmarket = () => {
         uploadedImageUrl = await handleFileUpload();
       }
       await updateSubmarket(uploadedImageUrl);
-      toast.success("Submarket updated successfully");
       navigate(-1);
     } catch (err) {
       console.log(err);
@@ -74,7 +73,7 @@ const EditSubmarket = () => {
       toast.success("Submarket updated successfully");
     } catch (error) {
         console.error(error);
-        toast.error("Failed to update submarket");
+       return error;
     }
   };
 

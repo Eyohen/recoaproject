@@ -7,9 +7,9 @@ import { toast } from "react-toastify";
 const InnerReservation = () => {
   const navigate = useNavigate();
 
-  const [unitTypes, setUnitTypes] = useState([]);
-  const [tenants, setTenants] = useState([]);
-  const [selectedUnitType, setSelectedUnitType] = useState("");
+  const [reservations, setReservations] = useState([]);
+  const [user, setUser] = useState([]);
+  const [selectedReservation, setSelectedReservation] = useState("");
   const [selectedTenant, setSelectedTenant] = useState("");
   const [count, setCount] = useState("");
   const [availableCount, setAvailableCount] = useState(0); // Store available count
@@ -17,36 +17,36 @@ const InnerReservation = () => {
   const [createDisabled, setCreateDisabled] = useState(false);
 
   useEffect(() => {
-    fetchUnitTypes();
-    fetchTenants();
+    fetchReservations();
+    fetchUser();
   }, []);
 
-  const fetchUnitTypes = async () => {
+  const fetchReservations = async () => {
     try {
-      const res = await axios.get(URL + "/api/unitTypes");
+      const res = await axios.get(URL + "/api/reservations");
       console.log("here", res.data);
-      setUnitTypes(res.data);
+      setReservations(res.data);
     } catch (err) {
       console.log(err);
       toast.error("Failed to fetch unit types");
     }
   };
 
-  const fetchTenants = async () => {
+  const fetchUser = async () => {
     try {
-      const res = await axios.get(URL + "/api/tenants");
+      const res = await axios.get(URL + "/api/user");
       console.log(res.data);
-      setTenants(res.data);
+      setUser(res.data);
     } catch (err) {
       console.log(err);
-      toast.error("Failed to fetch tenants");
+      toast.error("Failed to fetch user");
     }
   };
 
-  const handleUnitTypeChange = (e) => {
+  const handleReservationChange = (e) => {
     const selectedId = e.target.value;
-    setSelectedUnitType(selectedId);
-    const selectedType = unitTypes.find((type) => type._id === selectedId);
+    setSelectedReservation(selectedId);
+    const selectedType = reservations.find((type) => type._id === selectedId);
     setAvailableCount(selectedType ? selectedType.numAvailable : 0);
   };
 
@@ -62,10 +62,12 @@ const InnerReservation = () => {
     setCreateDisabled(true); // Disable create button
     try {
       await createReservation();
+      navigate("/admin/user/reservation/view");
       setCreated(true);
-      setSelectedUnitType("");
+      setSelectedReservation("");
       setSelectedTenant("");
       setCount("");
+      toast.success("Reservation created successfully");
     } catch (err) {
       console.log(err);
       toast.error("Failed to create reservation");
@@ -76,7 +78,7 @@ const InnerReservation = () => {
 
   const createReservation = async () => {
     const reservationData = {
-      unitTypeId: selectedUnitType,
+      reservationId: selectedReservation,
       tenantId: selectedTenant,
       count,
     };
@@ -94,9 +96,9 @@ const InnerReservation = () => {
       });
       toast.success("Reservation created successfully");
       navigate("/admin/reservation/view");
-    } catch (err) {
-      console.error(err);
-      return err;
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to create reservation");
     }
   };
 
@@ -111,12 +113,12 @@ const InnerReservation = () => {
         </Link>
         <form className="w-full flex flex-col space-y-4 md:space-y-8 mt-4">
           <select
-            value={selectedUnitType}
-            onChange={handleUnitTypeChange}
+            value={selectedReservation}
+            onChange={handleReservationChange}
             className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
           >
             <option value="">Select Unit Type</option>
-            {unitTypes.map((type) => (
+            {reservations.map((type) => (
               <option key={type._id} value={type._id}>
                 {type.name} - {type.numAvailable} available -{" "}
                 {type.community.name} - {type.community.status}
@@ -129,7 +131,7 @@ const InnerReservation = () => {
             className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
           >
             <option value="">Select Tenant</option>
-            {tenants.map((tenant) => (
+            {user.map((tenant) => (
               <option key={tenant._id} value={tenant._id}>
                 {tenant.tenant}
               </option>

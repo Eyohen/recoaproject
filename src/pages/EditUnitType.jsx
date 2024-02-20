@@ -57,7 +57,6 @@ const EditUnitType = () => {
         // If no file, update the submarket directly
         await updateUnittype(imageUrl);
       }
-      toast.success("Community updated successfully");
       navigate(-1);
     } catch (err) {
       console.log(err);
@@ -94,7 +93,7 @@ const EditUnitType = () => {
       toast.success("Unittype updated successfully");
     } catch (err) {
       console.log(err);
-      toast.error("Failed to update unittype");
+      return err;
     } finally {
       setUpdateDisabled(false); // Enable update button
     }

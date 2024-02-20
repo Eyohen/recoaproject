@@ -40,8 +40,6 @@ const InnerCommunity = () => {
         uploadedImageUrl = await handleFileUpload();
       }
       await createCommunity(uploadedImageUrl);
-      toast.success("community created successfully");
-
       navigate("/admin/community/view");
       setName("");
       setDesc("");
@@ -89,7 +87,7 @@ const InnerCommunity = () => {
       toast.success("community created successfully");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to create community");
+      return error;
     }
   };
 

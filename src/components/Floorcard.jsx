@@ -137,7 +137,7 @@ const Floorcard = ({ unittype }) => {
         <div className="absolute inset-x-0 top-16 flex flex-col items-center space-y-2">
           <p className="text-white font-medium text-sm">{unittype?.name}</p>
           <p className="text-white font-medium text-lg">
-            <span className="text-xl">{unittype?.numAvailable}</span> available
+            <span className="text-xl">{unittype?.numAvailable}</span> available (unreserve
           </p>
         </div>
 
@@ -202,7 +202,7 @@ const Floorcard = ({ unittype }) => {
                           Price:
                         </td>
                         <td className="py-2 px-4 border border-gray-300">
-                          ${unittype.price}/annum
+                          ${unittype.price} per annum
                         </td>
                       </tr>
                       <tr className="border-b">
@@ -234,7 +234,7 @@ const Floorcard = ({ unittype }) => {
                           Availability:
                         </td>
                         <td className="py-2 px-4 border border-gray-300">
-                          {reservationInfo.numAvailable} slots available
+                          {reservationInfo.numAvailable} reserved slots
                         </td>
                       </tr>
                       <tr className="border-b">

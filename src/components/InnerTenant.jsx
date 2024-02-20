@@ -26,7 +26,6 @@ const InnerTenant = () => {
         uploadedPhotoUrl = await handleFileUpload();
       }
       await createTenant(uploadedPhotoUrl);
-      toast.success("Tenant created successfully");
       navigate("/admin/tenant/view");
       setTenant("");
       setEmail("");
@@ -55,26 +54,27 @@ const InnerTenant = () => {
 
     try {
       await axios.post(URL + "/api/tenants/register", newTenant);
-      setCreated(true);
+      toast.success("Tenant created successfully");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to create tenant");
+      return error;
     }
   };
- const handleFileUpload = async () => {
-   const data = new FormData();
-   const filename = Date.now() + photo.name;
-   data.append("img", filename);
-   data.append("file", photo);
 
-   try {
-     const url = await axios.post(URL + "/api/upload", data);
-     return url.data[0];
-   } catch (err) {
-     console.log(err);
-     toast.error("Failed to upload image");
-   }
- };
+  const handleFileUpload = async () => {
+    const data = new FormData();
+    const filename = Date.now() + photo.name;
+    data.append("img", filename);
+    data.append("file", photo);
+
+    try {
+      const url = await axios.post(URL + "/api/upload", data);
+      return url.data[0];
+    } catch (err) {
+      console.log(err);
+      toast.error("Failed to upload image");
+    }
+  };
 
   return (
     <div className="w-full bg-gray-200">

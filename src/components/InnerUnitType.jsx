@@ -20,24 +20,23 @@ const InnerUnityType = () => {
   const [created, setCreated] = useState(false);
   const [createDisabled, setCreateDisabled] = useState(false); // State to disable create button
 
-const fetchCommunity = async () => {
-  try {
-    const res = await axios.get(URL + "/api/communities/");
-    console.log("data", res.data);
-    // Check if res.data is an array before setting it to state
-    if (Array.isArray(res.data)) {
-      setCommunity(res.data);
-    } else {
-      // Handle case where res.data is not an array
-      console.error("Expected an array for community, received:", res.data);
-      setCommunity([]); // Set to empty array or handle appropriately
+  const fetchCommunity = async () => {
+    try {
+      const res = await axios.get(URL + "/api/communities/");
+      console.log("data", res.data);
+      // Check if res.data is an array before setting it to state
+      if (Array.isArray(res.data)) {
+        setCommunity(res.data);
+      } else {
+        // Handle case where res.data is not an array
+        console.error("Expected an array for community, received:", res.data);
+        setCommunity([]); // Set to empty array or handle appropriately
+      }
+    } catch (err) {
+      console.log(err);
+      setCommunity([]); // Ensure community is reset in case of error
     }
-  } catch (err) {
-    console.log(err);
-    setCommunity([]); // Ensure community is reset in case of error
-  }
-};
-
+  };
 
   useEffect(() => {
     fetchCommunity();
@@ -52,8 +51,6 @@ const fetchCommunity = async () => {
         uploadedImageUrl = await handleFileUpload();
       }
       await createUnitType(uploadedImageUrl);
-      toast.success("Unit Type created successfully");
-
       navigate("/admin/unit/view");
       // Reset form fields
       setName("");
@@ -103,7 +100,7 @@ const fetchCommunity = async () => {
       toast.success("Unit Type created successfully");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to create Unit Type");
+      return error;
     }
   };
 
@@ -186,8 +183,8 @@ const fetchCommunity = async () => {
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="4">4</option>          
-            </select>
+            <option value="4">4</option>
+          </select>
 
           {/* Unit Number Input */}
           <input
