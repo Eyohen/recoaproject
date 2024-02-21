@@ -40,7 +40,7 @@ const Featured = () => {
       {isLoading ? (
         <p className="text-center">Loading...</p>
       ) : (
-        <div className="flex space-x-3 md:flex-row flex-col justify-center items-center overflow-x-scroll">
+        <div className="flex space-x-3 md:flex-row flex-col justify-center items-center overflow-x-auto">
           {noResults ? (
             <p className="text-center">No results found.</p>
           ) : (

@@ -2,7 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai"; // Importing Close Icon from React Icons
 import { FaUserCircle } from "react-icons/fa";
+import { IoMenuOutline } from "react-icons/io5";
+import { IoChevronDown } from "react-icons/io5";
+import { IoChevronForward } from "react-icons/io5";
+import { IoCloseOutline } from "react-icons/io5";
+
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
@@ -45,7 +51,41 @@ const Navbar = () => {
         <Link to={"/"}>
           <p className="text-green-700 font-bold text-3xl">Recoa</p>
         </Link>
-        <div className="flex space-x-6 items-center">
+        <div className="flex md:space-x-6 items-center">
+        <div className='relative'>
+          {isOpen ?  <IoCloseOutline onClick={() => setIsOpen((prev) => !prev)}  size={25} className="text-green-700 " /> : <IoMenuOutline onClick={() => setIsOpen((prev) => !prev)}  size={25} className="text-green-700 md:hidden" /> }
+        
+        {isOpen && (<div  className='rounded border border-gray-300 bg-white py-4 px-2 absolute right-[1px] top-9 w-[140px]'>
+   
+        <Link to="/about">
+    <div className='flex justify-between items-center border-b-2 py-2'>
+    <p className='text-green-700'>About Us</p>
+    </div>
+    </Link>
+
+    <Link to="/findcommunity">
+    <div className='flex justify-between items-center border-b-2 py-2'>
+    <p className='text-green-700'>Find your Apartment</p>
+    </div>
+    </Link>
+
+
+    <Link to="/communities">
+    <div className='flex justify-between items-center border-b-2 py-2'>
+    <p className='text-green-700'>Communities</p>
+    </div>
+    </Link>
+
+
+     
+        
+       
+   
+   
+   
+</div>)}
+
+</div>
           {/* Existing links */}
           <Link to="/about">
             <p className="hidden md:block text-green-700 text-lg font-medium hover:bg-green-800 hover:text-white hover:rounded-full hover:px-1.5">
