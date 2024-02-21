@@ -32,7 +32,7 @@ const ConfirmationPopup = ({ tenantDetails, onClose }) => {
                     <img
                       src={tenantDetails.photo}
                       alt="Tenant"
-                      className="w-24 h-24 rounded-full"
+                      className="w-24 h-24 rounded-full object-cover"
                     />
                   </div>
                   <p className="text-sm text-gray-500">

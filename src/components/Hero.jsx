@@ -54,7 +54,7 @@ const handleItemSearch = (name) => {
       }}
     >
       <div className="justify-center items-center flex flex-col">
-        <p className="text-white font-bold text-2xl md:text-4xl text-center justify-center mt-16">
+        <p className="font-bold text-2xl md:text-4xl text-center justify-center mt-16">
           Find Your New Home
         </p>
 
@@ -73,7 +73,7 @@ const handleItemSearch = (name) => {
           </select>
           {/* <button onClick={handleSearch} className='text-white border-2 py-1 px-2 rounded-full mt-3'>Search</button> */}
         </div>
-        <p className="text-white text-md md:text-lg text-center justify-center mt-2">
+        <p className=" text-md md:text-lg text-center justify-center mt-2">
           FIND RENTAL APARTMENT HOMES IN THE BUSINESS DISTRICTS OF LAGOS
         </p>
       </div>
