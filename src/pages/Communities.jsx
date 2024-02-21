@@ -89,10 +89,10 @@ const Communities = () => {
     const headerParam = searchParams.get("header") || "";
     if (headerParam) {
       setHeader(headerParam || "");
-    } else if (currentUser.role === "tenant" && currentUser.tenantInfo) {
+    } else if (currentUser && currentUser.role === "tenant" && currentUser.tenantInfo) {
       const headertag =
         currentUser.tenantInfo.company + " Reserved Communities";
-      setHeader(headertag);
+      setHeader(headertag || "");
     }
 
     let endpoint = "/api/communities/";
