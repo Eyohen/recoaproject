@@ -80,10 +80,11 @@ const CorporateLogin = () => {
   };
 
   return (
-    <div
-      className="min-h-screen bg-no-repeat bg-cover bg-center"
-      style={{ backgroundImage: `url(${HomeBackground})` }}
-    >
+    // <div
+    //   className="min-h-screen bg-no-repeat bg-cover bg-center"
+    //   style={{ backgroundImage: `url(${HomeBackground})` }}
+    // >
+    <div>
       <Navbar />
       <div className="flex flex-col items-center justify-center min-h-screen">
         {tenant.photo && (
@@ -98,15 +99,15 @@ const CorporateLogin = () => {
           type="email"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-          className="text-green-500 px-12 py-2 mt-3 rounded"
+          className="text-green-500 px-2 md:w-[400px] w-full py-2 mt-3 rounded border border-green-300"
           placeholder="Enter Email"
         />
         <input
           type="password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
-          className="text-green-500 px-12 py-2 mt-3 rounded"
-          placeholder="Enter Password"
+          className="text-green-500 px-2 md:w-[400px] w-full  py-2 mt-3 rounded border border-green-300"
+          placeholder="Enter Company Password"
         />
         {isRegistering && (
           <>
@@ -114,21 +115,21 @@ const CorporateLogin = () => {
               type="text"
               onChange={(e) => setFirstName(e.target.value)}
               value={firstName}
-              className="text-green-500 px-12 py-2 mt-3 rounded"
+              className="text-green-500 px-2 md:w-[400px] w-full  py-2 mt-3 rounded border border-green-300"
               placeholder="First Name"
             />
             <input
               type="text"
               onChange={(e) => setLastName(e.target.value)}
               value={lastName}
-              className="text-green-500 px-12 py-2 mt-3 rounded"
+              className="text-green-500 px-2 md:w-[400px] w-full  py-2 mt-3 rounded border border-green-300"
               placeholder="Last Name"
             />
             <input
               type="tel"
               onChange={(e) => setPhone(e.target.value)}
               value={phone}
-              className="text-green-500 px-12 py-2 mt-3 rounded"
+              className="text-green-500 px-2 md:w-[400px] w-full  py-2 mt-3 rounded border border-green-300"
               placeholder="Phone Number"
             />
           </>
@@ -136,27 +137,27 @@ const CorporateLogin = () => {
         <button
           onClick={isRegistering ? handleRegister : handleLogin}
           disabled={isLoading}
-          className="bg-green-500 text-white text-lg px-12 py-2 mt-6 rounded disabled:bg-green-300"
+          className="bg-green-500 text-white text-lg px-40 py-2 mt-6 rounded disabled:bg-green-300"
         >
           {isLoading ? "Processing..." : isRegistering ? "Register" : "Login"}
         </button>
         {isRegistering ? (
           <div
             onClick={() => setIsRegistering(false)}
-            className="cursor-pointer text-black-500 hover:text-black mt-3 bg-gray-500 p-1"
+            className="cursor-pointer text-black-500 hover:text-black mt-3 p-1"
           >
-            Already have an account? Login
+            Already have an account ? <span className="text-green-400 font-semibold">Login</span>
           </div>
         ) : (
           <div
             onClick={() => setIsRegistering(true)}
-            className="cursor-pointer text-black-500 hover:text-black mt-3 bg-gray-500 p-1"
+            className="cursor-pointer text-black-500 hover:text-black mt-3  p-1"
           >
-            New here? Register
+            Don't have an Account ? <span className="text-green-400 font-semibold">Sign Up</span>
           </div>
         )}
         {error && (
-          <p className="bg-red-500 text-white-500 px-2 py-2 rounded text-xl mt-2">
+          <p className="text-red-500 px-2 py-2 rounded text-xl mt-2">
             {error}
           </p>
         )}

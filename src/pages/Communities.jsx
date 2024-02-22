@@ -114,7 +114,7 @@ const Communities = () => {
       <Navbar />
       <div className="flex flex-col gap-y-6 mt-6 mx-auto max-w-4xlw">
         {header && (
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 text-center my-4 px-4">
+          <h2 className="text-2xl text-green-500 md:text-3xl font-semibold text-center my-4 px-4">
             Welcome to {header}
           </h2>
         )}

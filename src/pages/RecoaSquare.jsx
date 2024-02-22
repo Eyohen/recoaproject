@@ -46,7 +46,7 @@ if (isLoading) {
     <>
     <Navbar />
     <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-semibold mt-8 text-center text-green-700">
+      <h1 className="text-4xl font-semibold mt-8 text-center text-green-500">
         Welcome to {community.name}
       </h1>
       <img

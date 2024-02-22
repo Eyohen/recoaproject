@@ -7,8 +7,9 @@ export default {
   theme: {
     extend: {
       fontFamily:{
-        'Open+Sans':['Open+Sans']
-      }
+        //   body: ['Nunito']
+        'Prompt':['Prompt']
+        }
     },
     backgroundImage: {
       'backcover': "url('https://newsverge.com/wp-content/uploads/2021/03/Shell.jpeg')",
