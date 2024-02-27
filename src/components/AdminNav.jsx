@@ -219,14 +219,14 @@ return (
         <p className="text-sm font-semibold text-gray-600">
           Booked Reservations
         </p>
-        <p className="text-3sm font-bold">Tenant - {stats.reservationCount} </p>
+        <p className="text-3sm font-bold">Corperate Tenant - {stats.reservationCount} </p>
         <p className="text-3sm font-bold">User - {stats.userReservationCount} </p>
       </div>
     </div>
 
     <div className="max-w-4xl bg-white mx-auto mt-10 shadow-lg rounded-lg">
       <h1 className="font-semibold text-xl py-5 text-center text-gray-800">
-        Tenants Information
+      Corperate Tenants Information
       </h1>
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-gray-500">
@@ -236,7 +236,7 @@ return (
                 ID
               </th>
               <th scope="col" className="px-6 py-3">
-                Tenant
+              Corperate Tenant
               </th>
               <th scope="col" className="px-6 py-3">
                 Email

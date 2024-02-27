@@ -72,7 +72,7 @@ const UserReservationsCreated = () => {
       <div className="max-w-[1100px] bg-white mx-auto">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-16">
           <h1 className="font-bold text-xl mt-10 text-center">
-            Tenant User Reservations
+          Corperate Tenant User Reservations
           </h1>
 
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-5">

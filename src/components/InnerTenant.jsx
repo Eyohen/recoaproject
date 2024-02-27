@@ -85,24 +85,24 @@ const InnerTenant = () => {
 
       <div className="px-6 md:px-[200px] mt-8">
         <h1 className="font-bold md:text-2xl text-xl text-green-800 text-center">
-          Create a Tenant
+          Create a Corperate Tenant
         </h1>
         <Link to="/admin/tenant/view">
-          <p className="text-green-600">See Tenants Created</p>
+          <p className="text-green-600">See Corperate Tenants Created</p>
         </Link>
         <form className="w-full flex flex-col space-y-4 md:space-y-8 mt-4">
           <input
             onChange={(e) => setTenant(e.target.value)}
             value={tenant}
             type="text"
-            placeholder="Enter Tenant Name"
+            placeholder="Enter Corperate Tenant Name"
             className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
           />
           <input
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             type="text"
-            placeholder="Enter Tenant Email"
+            placeholder="Enter Corperate Tenant Email"
             className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
           />
           <input
@@ -123,7 +123,7 @@ const InnerTenant = () => {
             onChange={(e) => setCompany(e.target.value)}
             value={company}
             type="text"
-            placeholder="Enter Tenant Company"
+            placeholder="Enter Corperate Tenant Company"
             className="px-4 py-2 outline-none text-gray-400 border border-gray-400 rounded-lg"
           />
           <input
@@ -136,11 +136,11 @@ const InnerTenant = () => {
             className="bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg"
             disabled={createDisabled}
           >
-            {createDisabled ? "Creating..." : "Create Tenant"}
+            {createDisabled ? "Creating..." : "Create Corperate Tenant"}
           </button>
           {created && (
             <h3 className="text-green-500 text-sm text-center mt-4">
-              Tenant created successfully!
+              Corperate Tenant created successfully!
             </h3>
           )}
         </form>
