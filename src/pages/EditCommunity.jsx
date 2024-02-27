@@ -100,7 +100,7 @@ const EditCommunity = () => {
   const updateSubmarket = async (imageUrl) => {
     let Community = {
       name,
-      description,
+      desc: description,
       status,
       submarket: selectedSubMarket,
       photo: imageUrl, // Append the image URL to the community payload

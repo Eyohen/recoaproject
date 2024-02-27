@@ -53,7 +53,7 @@ const EditSubmarket = () => {
   const updateSubmarket = async (imageUrl) => {
     const submarket = {
       name,
-      description,
+      desc: description,
       location,
       status,
       photo: imageUrl,
